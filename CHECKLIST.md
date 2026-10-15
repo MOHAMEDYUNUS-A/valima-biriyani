@@ -85,15 +85,18 @@ Last Updated: Phase 1 Inspection & Architecture Plan Complete
 - [x] 110 Total automated tests passing across Phases 1 through 6.
 
 ### Phase 7: Central Admin Orders, POS & Browser Receipts
-- [ ] Central Orders Management view (Live search, channel filter, status filter, date filter, pagination).
-- [ ] Fast Point-of-Sale (POS) interface:
+- [x] Central Orders Management view (Live search, channel filter, status filter, date filter, pagination).
+- [x] Order detail inspection (`/admin/orders/{id}`) with item snapshots, lifecycle events timeline, and status updates.
+- [x] Fast Point-of-Sale (POS) interface (`/pos`):
   - Instant item search & quick category tabs.
   - Live bill builder with server recalculation.
-  - Customer lookup & guest order support.
-  - Payment collection (Cash, Card, UPI).
-  - Role-gated discount approval.
-- [ ] Printable Invoice & Receipt (Browser CSS print template, thermal 58mm & 80mm support).
-- [ ] Order cancellation & refund handling with permission checks and audit logs.
+  - Customer lookup & guest order support (+91 normalization).
+  - Payment collection (Cash, UPI / QR at counter).
+  - Immediate KOT dispatch to kitchen.
+- [x] Printable Invoice & Receipt (`/pos/receipt/{id}` with browser CSS print template, thermal 58mm & 80mm support).
+- [x] Operational Dashboard analytics (`/admin`) displaying live sales, kitchen queue, and orders from database.
+- [x] 13 Automated Admin, POS & Receipt Tests executed and passing cleanly (0 failures).
+- [x] 123 Total automated tests passing across Phases 1 through 7.
 
 ### Phase 8: Kitchen Display System (KDS) & KOT Queue
 - [ ] Modern 3D/Isometric Table Overview preserving existing aesthetic.

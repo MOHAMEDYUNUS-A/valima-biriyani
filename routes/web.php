@@ -9,6 +9,8 @@ use App\Controllers\PublicController;
 use App\Controllers\MenuController;
 use App\Controllers\OrderController;
 use App\Controllers\AdminMenuController;
+use App\Controllers\AdminOrderController;
+use App\Controllers\PosController;
 use App\Middleware\CsrfMiddleware;
 use App\Middleware\AuthMiddleware;
 use App\Middleware\RoleMiddleware;
@@ -49,15 +51,22 @@ $router->post('/logout', [AuthController::class, 'logout'], [CsrfMiddleware::cla
 
 // ── Admin Protected Console ──
 $adminAuth = [AuthMiddleware::class, new RoleMiddleware(['owner', 'manager'])];
+$staffAuth = [AuthMiddleware::class, new RoleMiddleware(['owner', 'manager', 'cashier'])];
 
+// Admin Dashboard
 $router->get('/admin', function (Request $request) {
     $user = Session::user();
-    echo View::render('admin.dashboard_placeholder', [
+    echo View::render('admin.dashboard', [
         'title' => 'Admin Dashboard',
         'currentPage' => 'dashboard',
         'currentUser' => $user,
     ], 'admin');
 }, $adminAuth);
+
+// Admin Central Orders Management
+$router->get('/admin/orders', [AdminOrderController::class, 'index'], $adminAuth);
+$router->get('/admin/orders/{id}', [AdminOrderController::class, 'show'], $adminAuth);
+$router->post('/admin/orders/{id}/status', [AdminOrderController::class, 'updateStatus'], array_merge($adminAuth, [CsrfMiddleware::class]));
 
 // Admin Menu Management
 $router->get('/admin/menu', [AdminMenuController::class, 'index'], $adminAuth);
@@ -68,12 +77,11 @@ $router->post('/admin/menu/{id}/update', [AdminMenuController::class, 'updateIte
 $router->post('/admin/menu/{id}/toggle', [AdminMenuController::class, 'toggleAvailability'], array_merge($adminAuth, [CsrfMiddleware::class]));
 $router->post('/admin/menu/{id}/delete', [AdminMenuController::class, 'deleteItem'], array_merge($adminAuth, [CsrfMiddleware::class]));
 
-// ── POS & Kitchen Stubs (Expanded in Phase 7 & 8) ──
-$router->get('/pos', function (Request $request) {
-    $user = Session::user();
-    echo "<h1>Point of Sale Billing - Staff: " . htmlspecialchars($user['name']) . "</h1><p><a href='/admin'>Admin</a> | <a href='/logout'>Sign Out</a></p>";
-}, [AuthMiddleware::class, new RoleMiddleware(['owner', 'manager', 'cashier'])]);
+// ── Point-of-Sale (POS) Terminal ──
+$router->get('/pos', [PosController::class, 'terminal'], $staffAuth);
+$router->get('/pos/receipt/{id}', [PosController::class, 'receipt'], $staffAuth);
 
+// ── Kitchen Stub (Expanded in Phase 8) ──
 $router->get('/kitchen', function (Request $request) {
     $user = Session::user();
     echo "<h1>Kitchen Display System - Staff: " . htmlspecialchars($user['name']) . "</h1><p><a href='/logout'>Sign Out</a></p>";
