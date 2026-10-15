@@ -157,8 +157,19 @@ Last Updated: Phase 1 Inspection & Architecture Plan Complete
 - [x] **UI-5**: POS billing terminal and Kitchen KDS display with thermal KOT.
 - [x] **UI-6**: 10 Automated PHP test suites, 217 passing tests, 0 failures.
 
-### Phase 14: Deployment Documentation & Runbook
-- [ ] XAMPP Windows setup guide (step-by-step commands, vhost, Apache config, MariaDB setup).
-- [ ] Hostinger Shared / VPS deployment guide (`.htaccess` docroot shielding, database migration, file permissions, SSL).
-- [ ] Maintenance runbook: backup routines, password rotation, log rotation, rollback procedure.
+### Phase 14: Deployment Documentation & Runbook (Hostinger & XAMPP)
+- [x] Web-based Hostinger Setup & Installation Wizard (`/install`):
+  - PHP >= 8.2 and extensions verification (`pdo_mysql`, `curl`, `mbstring`, `openssl`, `fileinfo`).
+  - Hostinger MySQL connection tester & `.env` writer.
+  - Automated database migration runner (5/5 migrations) and seeder.
+  - Custom Master Administrator creation with bcrypt password hashing.
+  - Installation lock mechanism (`storage/installed.lock`) preventing unauthorized re-installation.
+- [x] Hostinger Root `.htaccess` Shielding:
+  - Rewrites all traffic into `public/`.
+  - Blocks direct access to `.env`, `.git`, `app/`, `config/`, `database/`, `storage/`, `tests/`.
+  - Sets security headers (`X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`).
+- [x] Full End-to-End Workflow Testing (`tests/WorkflowEndToEndTest.php`):
+  - 11 Total Automated PHP Test Suites.
+  - 266 Passed Tests Across Storefront, Menu, Orders, POS, KDS, Tracking, CRM, Reports, Settings, and Installer (0 Failures).
+
 

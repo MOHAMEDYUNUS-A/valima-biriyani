@@ -18,6 +18,10 @@ use App\Middleware\RoleMiddleware;
 
 /** @var \App\Router $router */
 
+// ── Web Installer & Database Setup (Hostinger) ──
+$router->get('/install', [\App\Controllers\InstallController::class, 'index']);
+$router->post('/install', [\App\Controllers\InstallController::class, 'setup']);
+
 // ── Public Storefront Pages ──
 $router->get('/', [PublicController::class, 'home']);
 $router->get('/about', [PublicController::class, 'about']);
