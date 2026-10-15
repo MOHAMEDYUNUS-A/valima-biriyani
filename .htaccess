@@ -1,0 +1,16 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Deny direct access to sensitive directories and files
+    RewriteRule ^(\.env|\.git|app|config|database|storage|legacy|tests) - [F,L]
+
+    # Redirect root to public/ if document root is set to project root
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+
+# Fallback direct file access prevention
+<FilesMatch "^\.(env|git|htaccess)">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>

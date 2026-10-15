@@ -1,0 +1,35 @@
+.env
+.env.local
+.env.*.local
+
+# Composer
+/vendor/
+composer.lock
+
+# Storage & Logs
+/storage/logs/*.log
+/storage/backups/*.sql
+/storage/backups/*.gz
+/storage/exports/*
+/storage/private/*
+!/storage/logs/.gitkeep
+!/storage/backups/.gitkeep
+!/storage/exports/.gitkeep
+!/storage/private/.gitkeep
+
+# Uploads
+/public/uploads/*
+!/public/uploads/.gitkeep
+!/public/uploads/menu/
+/public/uploads/menu/*
+!/public/uploads/menu/.gitkeep
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+*.tmp
+*.temp
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
