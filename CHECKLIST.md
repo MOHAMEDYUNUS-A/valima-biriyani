@@ -58,14 +58,17 @@ Last Updated: Phase 1 Inspection & Architecture Plan Complete
 - [x] HTTP Verification: `/login` renders 200 with CSRF; `/admin` returns 302 redirecting unauthenticated requests.
 
 ### Phase 5: Public Website & Menu Management
-- [ ] Public restaurant storefront: Home, About, Menu, Contact, Hours & Location, FAQ.
-- [ ] Policy pages: Privacy Policy, Terms of Service, Refund & Cancellation Policy, Delivery Policy.
-- [ ] Dynamic Menu Management in Admin:
-  - CRUD Menu Categories.
-  - CRUD Menu Items with variants (Full/Half) and add-ons (Extra Raita, Salna, Egg).
-  - Secure image upload (MIME validation, extension check, resize, random filename, non-executable storage).
-  - Availability toggle & out-of-stock badge.
-  - Prep time, tax rate, promo pricing.
+- [x] Public restaurant storefront: Home, About, Menu, Contact, Hours & Location, FAQ.
+- [x] Policy pages: Privacy Policy, Terms of Service, Refund & Cancellation Policy, Delivery Policy.
+- [x] Dynamic Menu Management in Admin:
+  - List all menu categories and items with thumbnails.
+  - CRUD Menu Items with validation, base price, promo price, prep time, veg/non-veg tags.
+  - Secure image upload (MIME validation, extension check, 3MB limit, non-executable storage in `public/uploads/menu/`).
+  - Real-time Availability toggle (instantly toggle In Stock / Out of Stock).
+- [x] Customer Menu browsing reading directly from MySQL/SQLite database (replaces legacy JS hardcoded array).
+- [x] Public JSON APIs: `GET /api/menu`, `GET /api/menu/categories`.
+- [x] 17 Automated Menu & Storefront Tests executed and passing cleanly (0 failures).
+- [x] 95 Total automated tests passing across Phases 1 through 5.
 
 ### Phase 6: Customer Ordering & Secure Checkout
 - [ ] Dine-in table allocation with database row locking (`FOR UPDATE`) to eliminate race conditions.
