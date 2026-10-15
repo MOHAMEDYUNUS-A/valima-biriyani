@@ -7,6 +7,7 @@ use App\Helpers\Session;
 use App\Controllers\AuthController;
 use App\Controllers\PublicController;
 use App\Controllers\MenuController;
+use App\Controllers\OrderController;
 use App\Controllers\AdminMenuController;
 use App\Middleware\CsrfMiddleware;
 use App\Middleware\AuthMiddleware;
@@ -25,6 +26,12 @@ $router->get('/privacy-policy', [PublicController::class, 'privacyPolicy']);
 $router->get('/terms-of-service', [PublicController::class, 'termsOfService']);
 $router->get('/refund-policy', [PublicController::class, 'refundPolicy']);
 $router->get('/delivery-policy', [PublicController::class, 'deliveryPolicy']);
+
+// ── Dine-in Table Flow & Checkout ──
+$router->get('/dine-in', [OrderController::class, 'dineIn']);
+$router->post('/dine-in', [OrderController::class, 'startDineIn'], [CsrfMiddleware::class]);
+$router->get('/checkout', [OrderController::class, 'checkout']);
+$router->post('/orders', [OrderController::class, 'store'], [CsrfMiddleware::class]);
 
 $router->get('/health', function (Request $request) {
     Response::success([

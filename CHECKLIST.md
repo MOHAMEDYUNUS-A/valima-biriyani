@@ -71,15 +71,18 @@ Last Updated: Phase 1 Inspection & Architecture Plan Complete
 - [x] 95 Total automated tests passing across Phases 1 through 5.
 
 ### Phase 6: Customer Ordering & Secure Checkout
-- [ ] Dine-in table allocation with database row locking (`FOR UPDATE`) to eliminate race conditions.
-- [ ] Multi-channel order type support: Dine-in, Takeaway/Pickup, Home Delivery.
-- [ ] Customer phone & name normalization (+91 standard, unverified guest tracking).
-- [ ] Server-side cart validation and recalculation (server prices only, zero client price trust).
-- [ ] Idempotency key validation to prevent double-click duplicate orders.
-- [ ] Order number generation (`VAL-YYYYMMDD-XXXX`).
-- [ ] Cryptographic random tracking token generation (`random_bytes(32)`).
-- [ ] Status event timeline initialization (`Order Taken`).
-- [ ] Cash / UPI at Counter payment recording.
+- [x] Dine-in table allocation with transactional locking (`OrderService::allocateTable()`) to eliminate race conditions.
+- [x] Multi-channel order type support: Dine-in (with table), Takeaway/Pickup, Home Delivery.
+- [x] Customer phone & name normalization (+91 standard, unverified guest tracking).
+- [x] Server-side cart validation and recalculation (server prices only, zero client price trust).
+- [x] Idempotency key validation to prevent double-click duplicate orders.
+- [x] Order number generation (`VAL-YYYYMMDD-XXXX`).
+- [x] Cryptographic random tracking token generation (`random_bytes(16)` -> 32 hex chars).
+- [x] Status event timeline initialization (`order_status_events`).
+- [x] Automatic kitchen ticket generation (`kitchen_tickets`).
+- [x] Cash / Counter UPI payment recording.
+- [x] 15 Automated Order & Checkout Tests executed and passing cleanly (0 failures).
+- [x] 110 Total automated tests passing across Phases 1 through 6.
 
 ### Phase 7: Central Admin Orders, POS & Browser Receipts
 - [ ] Central Orders Management view (Live search, channel filter, status filter, date filter, pagination).
