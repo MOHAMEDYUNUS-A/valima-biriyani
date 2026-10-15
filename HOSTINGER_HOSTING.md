@@ -36,7 +36,10 @@ You can upload your files using either the **Hostinger File Manager** (recommend
 
 3. **Extract Files**:
    - Right-click `valima-biriyani.zip` inside `public_html/` and click **Extract**.
-   - Extract directly into the root of `public_html/`.
+   - **Important**: Ensure your files are placed either directly in `public_html/` (for domain root access `https://f5coders.com/install`) or in a subfolder (e.g. `public_html/hotel/` or `public_html/hotel/hotel/`).
+   - If Hostinger extracted files into a nested folder like `public_html/hotel/hotel/`:
+     - **Option 1 (Subfolder access)**: Leave it as is! Valima Biriyani's router automatically detects subfolders, so `https://f5coders.com/hotel/hotel/install` works immediately.
+     - **Option 2 (Domain root access)**: In File Manager, select all files inside the subfolder, click **Move**, and set destination to `public_html/`. Then visit `https://f5coders.com/install`.
    - Delete the ZIP file after extraction.
 
 ---
