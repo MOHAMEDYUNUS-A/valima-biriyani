@@ -11,9 +11,9 @@ abstract class BaseController
 {
     protected Request $request;
 
-    public function __construct(Request $request)
+    public function __construct(?Request $request = null)
     {
-        $this->request = $request;
+        $this->request = $request ?? new Request();
     }
 
     protected function render(string $view, array $data = [], ?string $layout = null): void
@@ -60,8 +60,32 @@ abstract class BaseController
                     $this->error('Access denied. Insufficient permissions.', 403);
                 }
                 Session::flash('error', 'Access denied.');
-                $this->redirect('/dashboard');
+                $this->redirect('/admin');
             }
+        }
+
+        return $user;
+    }
+
+    protected function requireRoles(array $roles): array
+    {
+        $user = Session::user();
+        if (!$user) {
+            if ($this->request->isJson()) {
+                $this->error('Authentication required', 401);
+            }
+            Session::flash('error', 'Please log in to continue.');
+            $this->redirect('/login');
+        }
+
+        $userRole = strtolower($user['role'] ?? '');
+        $allowed = array_map('strtolower', $roles);
+        if ($userRole !== 'owner' && !in_array($userRole, $allowed, true)) {
+            if ($this->request->isJson()) {
+                $this->error('Access denied. Insufficient permissions.', 403);
+            }
+            Session::flash('error', 'Access denied.');
+            $this->redirect('/admin');
         }
 
         return $user;

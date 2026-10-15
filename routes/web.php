@@ -11,6 +11,7 @@ use App\Controllers\OrderController;
 use App\Controllers\AdminMenuController;
 use App\Controllers\AdminOrderController;
 use App\Controllers\PosController;
+use App\Controllers\KitchenController;
 use App\Middleware\CsrfMiddleware;
 use App\Middleware\AuthMiddleware;
 use App\Middleware\RoleMiddleware;
@@ -81,8 +82,7 @@ $router->post('/admin/menu/{id}/delete', [AdminMenuController::class, 'deleteIte
 $router->get('/pos', [PosController::class, 'terminal'], $staffAuth);
 $router->get('/pos/receipt/{id}', [PosController::class, 'receipt'], $staffAuth);
 
-// ── Kitchen Stub (Expanded in Phase 8) ──
-$router->get('/kitchen', function (Request $request) {
-    $user = Session::user();
-    echo "<h1>Kitchen Display System - Staff: " . htmlspecialchars($user['name']) . "</h1><p><a href='/logout'>Sign Out</a></p>";
-}, [AuthMiddleware::class, new RoleMiddleware(['owner', 'kitchen'])]);
+// ── Kitchen Display System (KDS) & KOT ──
+$kitchenAuth = [AuthMiddleware::class, new RoleMiddleware(['owner', 'manager', 'kitchen'])];
+$router->get('/kitchen', [KitchenController::class, 'display'], $kitchenAuth);
+$router->get('/kitchen/kot/{id}', [KitchenController::class, 'kot'], [AuthMiddleware::class, new RoleMiddleware(['owner', 'manager', 'kitchen', 'cashier'])]);

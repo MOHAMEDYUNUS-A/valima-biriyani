@@ -89,6 +89,23 @@ class Database
         return $result ?: null;
     }
 
+    public static function fetchAll(string $sql, array $params = []): array
+    {
+        return self::query($sql, $params);
+    }
+
+    public static function fetchOne(string $sql, array $params = []): ?array
+    {
+        return self::queryOne($sql, $params);
+    }
+
+    public static function fetchValue(string $sql, array $params = []): mixed
+    {
+        $stmt = self::pdo()->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetchColumn();
+    }
+
     public static function execute(string $sql, array $params = []): int
     {
         $stmt = self::pdo()->prepare($sql);

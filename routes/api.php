@@ -34,3 +34,9 @@ $router->post('/api/orders', [OrderController::class, 'store']);
 $staffAuth = [AuthMiddleware::class, new RoleMiddleware(['owner', 'manager', 'cashier'])];
 $router->get('/api/pos/customers/search', [PosController::class, 'searchCustomers'], $staffAuth);
 $router->post('/api/pos/orders', [PosController::class, 'storeOrder'], $staffAuth);
+
+// Kitchen APIs
+$kitchenAuth = [AuthMiddleware::class, new RoleMiddleware(['owner', 'manager', 'kitchen'])];
+$router->get('/api/kitchen/stream', [\App\Controllers\KitchenController::class, 'stream'], $kitchenAuth);
+$router->post('/api/kitchen/orders/{id}/status', [\App\Controllers\KitchenController::class, 'updateStatus'], $kitchenAuth);
+
