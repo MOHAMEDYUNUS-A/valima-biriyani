@@ -40,3 +40,6 @@ $kitchenAuth = [AuthMiddleware::class, new RoleMiddleware(['owner', 'manager', '
 $router->get('/api/kitchen/stream', [\App\Controllers\KitchenController::class, 'stream'], $kitchenAuth);
 $router->post('/api/kitchen/orders/{id}/status', [\App\Controllers\KitchenController::class, 'updateStatus'], $kitchenAuth);
 
+// Customer Tracking API
+$router->get('/api/track/{token}', [\App\Controllers\TrackingController::class, 'statusApi']);
+

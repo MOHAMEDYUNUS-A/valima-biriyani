@@ -86,3 +86,10 @@ $router->get('/pos/receipt/{id}', [PosController::class, 'receipt'], $staffAuth)
 $kitchenAuth = [AuthMiddleware::class, new RoleMiddleware(['owner', 'manager', 'kitchen'])];
 $router->get('/kitchen', [KitchenController::class, 'display'], $kitchenAuth);
 $router->get('/kitchen/kot/{id}', [KitchenController::class, 'kot'], [AuthMiddleware::class, new RoleMiddleware(['owner', 'manager', 'kitchen', 'cashier'])]);
+
+// ── Customer Order Tracking & Add More Items ──
+$router->get('/track/{token}', [\App\Controllers\TrackingController::class, 'show']);
+$router->get('/track/{token}/add-more', [\App\Controllers\TrackingController::class, 'addMoreItems']);
+
+// ── Admin Delivery Management (Rapido) ──
+$router->post('/admin/orders/{id}/delivery', [\App\Controllers\DeliveryController::class, 'update'], array_merge($staffAuth, [CsrfMiddleware::class]));
