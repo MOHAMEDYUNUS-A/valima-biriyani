@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= \App\Helpers\Security::e($title ?? 'Valima Biriyani — Setup Wizard') ?></title>
-    <link rel="stylesheet" href="/assets/css/app.css">
+    <link rel="stylesheet" href="<?= $basePath ?? '' ?>/assets/css/app.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,600&display=swap" rel="stylesheet">
@@ -36,7 +36,7 @@
     <div class="install-box">
         <!-- Brand Header -->
         <div class="bg-[#14110C] p-6 text-center border-b border-[#2A241C]">
-            <img src="/assets/images/valima-logo.jpg" alt="Valima Biriyani" style="height: 52px; margin: 0 auto 12px; border-radius: 8px;">
+            <img src="<?= $basePath ?? '' ?>/assets/images/valima-logo.jpg" alt="Valima Biriyani" style="height: 52px; margin: 0 auto 12px; border-radius: 8px;">
             <h1 class="text-2xl font-serif font-bold text-white tracking-wide">Valima Biriyani Setup Wizard</h1>
             <p class="text-xs text-[#A09486] mt-1">Hostinger Shared Hosting & Database Installation</p>
         </div>
@@ -110,7 +110,7 @@
             </div>
 
             <!-- Installation Form -->
-            <form action="/install" method="POST" class="space-y-6">
+            <form action="<?= $basePath ?? '' ?>/install" method="POST" class="space-y-6">
                 <!-- Section 1: Database Setup -->
                 <div>
                     <h3 class="text-sm font-bold text-foreground uppercase tracking-wider mb-3 pb-1 border-b border-border flex items-center gap-2">

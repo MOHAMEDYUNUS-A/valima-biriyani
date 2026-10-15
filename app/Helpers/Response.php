@@ -37,6 +37,14 @@ class Response
 
     public static function redirect(string $url, int $statusCode = 302): void
     {
+        // Prepend base path for subfolder deployments (e.g. /hotel/hotel)
+        if (str_starts_with($url, '/') && !str_starts_with($url, '//')) {
+            $base = Request::basePath();
+            if ($base !== '' && !str_starts_with($url, $base)) {
+                $url = $base . $url;
+            }
+        }
+
         http_response_code($statusCode);
         header("Location: {$url}");
         exit;

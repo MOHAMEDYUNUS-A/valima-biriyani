@@ -21,10 +21,34 @@ class Request
         return strtoupper($this->server['REQUEST_METHOD'] ?? 'GET');
     }
 
+    /**
+     * Detect application base path (e.g. '' for root or '/hotel/hotel' when in a subdirectory).
+     */
+    public static function basePath(): string
+    {
+        $script = str_replace('\\', '/', $_SERVER['SCRIPT_NAME'] ?? '');
+        $dir = str_replace('\\', '/', dirname($script));
+        $base = preg_replace('#/public/?$#i', '', $dir);
+
+        return ($base === '/' || $base === '.' || $base === null) ? '' : rtrim($base, '/');
+    }
+
     public function uri(): string
     {
-        $uri = $this->server['REQUEST_URI'] ?? '/';
-        $path = parse_url($uri, PHP_URL_PATH) ?? '/';
+        $rawUri = $this->server['REQUEST_URI'] ?? '/';
+        $path = parse_url($rawUri, PHP_URL_PATH) ?? '/';
+
+        // 1. Strip detected base directory (e.g. /hotel/hotel)
+        $base = self::basePath();
+        if ($base !== '' && str_starts_with($path, $base)) {
+            $path = substr($path, strlen($base));
+        }
+
+        // 2. If URL contains /public prefix, strip it
+        if (str_starts_with($path, '/public')) {
+            $path = substr($path, 7);
+        }
+
         return rtrim($path, '/') ?: '/';
     }
 

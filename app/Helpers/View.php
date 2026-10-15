@@ -23,6 +23,7 @@ class View
         $appConfig = require __DIR__ . '/../../config/app.php';
         $globalData = [
             'app' => $appConfig,
+            'basePath' => Request::basePath(),
             'csrf_field' => Security::csrfField(),
             'csrf_token' => Security::generateCsrfToken(),
             'currentUser' => Session::user(),
@@ -47,5 +48,19 @@ class View
         }
 
         return $content;
+    }
+
+    public static function asset(string $path): string
+    {
+        $base = Request::basePath();
+        $clean = '/' . ltrim($path, '/');
+        return $base . $clean;
+    }
+
+    public static function url(string $path = ''): string
+    {
+        $base = Request::basePath();
+        $clean = '/' . ltrim($path, '/');
+        return $base . ($clean === '/' ? '' : $clean);
     }
 }

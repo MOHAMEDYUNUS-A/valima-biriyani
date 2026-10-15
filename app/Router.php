@@ -88,6 +88,26 @@ class Router
                 }
                 $methodAllowed = true;
             }
+        // Smart Subdirectory Fallback: If no route matched directly, check if URI has a subfolder prefix (e.g. /hotel/hotel/install)
+        if (!$matchedRoute) {
+            foreach ($this->routes as $route) {
+                if ($route['path'] !== '/' && str_ends_with($uri, $route['path'])) {
+                    $prefix = substr($uri, 0, strlen($uri) - strlen($route['path']));
+                    $strippedUri = substr($uri, strlen($prefix));
+                    if (preg_match($route['regex'], $strippedUri, $matches)) {
+                        if ($route['method'] === $method) {
+                            $matchedRoute = $route;
+                            foreach ($matches as $key => $val) {
+                                if (is_string($key)) {
+                                    $matchedParams[$key] = $val;
+                                }
+                            }
+                            break;
+                        }
+                        $methodAllowed = true;
+                    }
+                }
+            }
         }
 
         if (!$matchedRoute) {

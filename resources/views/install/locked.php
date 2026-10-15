@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= \App\Helpers\Security::e($title ?? 'Valima Biriyani — Installer Locked') ?></title>
-    <link rel="stylesheet" href="/assets/css/app.css">
+    <link rel="stylesheet" href="<?= ($basePath ?? '') ?>/assets/css/app.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,600&display=swap" rel="stylesheet">
@@ -49,11 +49,11 @@
             </p>
 
             <div class="space-y-3 pt-2">
-                <a href="/login" class="btn btn-primary w-full py-2.5 text-center text-sm font-bold shadow-soft flex items-center justify-center gap-2">
+                <a href="<?= ($basePath ?? '') ?>/login" class="btn btn-primary w-full py-2.5 text-center text-sm font-bold shadow-soft flex items-center justify-center gap-2">
                     <?= \App\Helpers\Icon::render('user', 'w-4 h-4') ?>
                     <span>Go to Staff / Admin Login</span>
                 </a>
-                <a href="/" class="btn btn-secondary w-full py-2.5 text-center text-sm font-semibold flex items-center justify-center gap-2">
+                <a href="<?= ($basePath ?? '') ?>/" class="btn btn-secondary w-full py-2.5 text-center text-sm font-semibold flex items-center justify-center gap-2">
                     <?= \App\Helpers\Icon::render('shopping-bag', 'w-4 h-4') ?>
                     <span>Return to Customer Storefront</span>
                 </a>
