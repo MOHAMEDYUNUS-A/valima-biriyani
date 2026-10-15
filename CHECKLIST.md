@@ -1,0 +1,145 @@
+# VALIMA BIRIYANI — MASTER IMPLEMENTATION CHECKLIST
+
+Last Updated: Phase 1 Inspection & Architecture Plan Complete
+
+---
+
+## Status Legend
+- ✅ **COMPLETED** — Implemented, verified, and tested.
+- ⏳ **PENDING** — Ready for development in the current/upcoming phase.
+- 🚫 **BLOCKED** — Dependent on real hardware or third-party paid/approved credentials (documented fallback provided).
+
+---
+
+## Phase Breakdown
+
+### Phase 1: Inspection & Security Assessment
+- [x] Inspect existing project codebase (`db.php`, `index.php`, `menu.php`, `place_order.php`, `track.php`, `update_status.php`, `get_latest_order.php`, `kitchen.php`, `dashboard.php`).
+- [x] Identify critical vulnerabilities (plaintext credentials, SQLi, XSS, lack of auth, CSRF, client pricing trust, race conditions).
+- [x] Install & verify local execution environment (PHP 8.2.33 CLI + PDO + MySQLnd + SQLite + Composer).
+- [x] Initialize Git version control.
+- [x] Produce comprehensive Phase 1 Inspection & Architecture Report.
+- [x] Generate initial `CHECKLIST.md` and `README.md`.
+
+### Phase 2: Architecture Foundation & Core Framework
+- [ ] Establish directory structure (`app/`, `config/`, `database/`, `public/`, `resources/views/`, `routes/`, `storage/`, `tests/`, `legacy/`).
+- [ ] Safe environment configuration (`.env`, `.env.example`, environment loader with secure fallbacks).
+- [ ] Secure HTTP Routing engine (RESTful methods, URL parameters, CSRF protection, error handler).
+- [ ] PDO Database wrapper with transaction management, prepared statements, and query logging.
+- [ ] Base MVC components: BaseController, BaseModel, ViewRenderer, Request, Response, Session, Validator.
+- [ ] Error & Exception Handling (safe production error pages, debug logs in `storage/logs/`).
+- [ ] Modern, responsive master layout templates preserving existing warm orange/gold restaurant aesthetics.
+
+### Phase 3: Database Migrations & Legacy Data Migration
+- [ ] Migration runner engine (schema versioning, up/down migrations).
+- [ ] Schema migrations: `users`, `roles`, `permissions`, `user_roles`, `customers`, `customer_addresses`, `customer_consents`, `restaurant_tables`, `menu_categories`, `menu_items`, `menu_item_variants`, `menu_addons`, `menu_item_addons`, `orders`, `order_items`, `order_item_addons`, `order_status_events`, `payments`, `refunds`, `loyalty_settings`, `loyalty_transactions`, `delivery_bookings`, `kitchen_tickets`, `print_jobs`, `notification_logs`, `webhook_events`, `idempotency_keys`, `restaurant_settings`, `audit_logs`, `rate_limits`.
+- [ ] Seeders: Roles, Permissions, Admin User, Sample Menu (Biriyani, Fried Rice, Noodles, existing prices), Table Configuration (1–8).
+- [ ] Legacy Data Migration Script (`orders`, `order_items`, `menu`, `tables`) with backup safeguard.
+
+### Phase 4: Authentication, Authorization & Security Hardening
+- [ ] Staff authentication (`password_hash` / `password_verify`, Argon2id/Bcrypt).
+- [ ] Session security (session regeneration on login, HttpOnly, SameSite=Strict, session timeout).
+- [ ] Role-Based Access Control (RBAC): Owner, Manager, Cashier/POS, Kitchen, Delivery.
+- [ ] Role-protect routes (`/admin`, `/pos`, `/kitchen`, `/delivery`).
+- [ ] Rate limiting on login attempts (IP and user tracking).
+- [ ] CSRF middleware on all state-changing endpoints (POST/PUT/DELETE).
+- [ ] Comprehensive Audit Logger for critical events (price edits, cancellations, refunds, staff changes).
+
+### Phase 5: Public Website & Menu Management
+- [ ] Public restaurant storefront: Home, About, Menu, Contact, Hours & Location, FAQ.
+- [ ] Policy pages: Privacy Policy, Terms of Service, Refund & Cancellation Policy, Delivery Policy.
+- [ ] Dynamic Menu Management in Admin:
+  - CRUD Menu Categories.
+  - CRUD Menu Items with variants (Full/Half) and add-ons (Extra Raita, Salna, Egg).
+  - Secure image upload (MIME validation, extension check, resize, random filename, non-executable storage).
+  - Availability toggle & out-of-stock badge.
+  - Prep time, tax rate, promo pricing.
+
+### Phase 6: Customer Ordering & Secure Checkout
+- [ ] Dine-in table allocation with database row locking (`FOR UPDATE`) to eliminate race conditions.
+- [ ] Multi-channel order type support: Dine-in, Takeaway/Pickup, Home Delivery.
+- [ ] Customer phone & name normalization (+91 standard, unverified guest tracking).
+- [ ] Server-side cart validation and recalculation (server prices only, zero client price trust).
+- [ ] Idempotency key validation to prevent double-click duplicate orders.
+- [ ] Order number generation (`VAL-YYYYMMDD-XXXX`).
+- [ ] Cryptographic random tracking token generation (`random_bytes(32)`).
+- [ ] Status event timeline initialization (`Order Taken`).
+- [ ] Cash / UPI at Counter payment recording.
+
+### Phase 7: Central Admin Orders, POS & Browser Receipts
+- [ ] Central Orders Management view (Live search, channel filter, status filter, date filter, pagination).
+- [ ] Fast Point-of-Sale (POS) interface:
+  - Instant item search & quick category tabs.
+  - Live bill builder with server recalculation.
+  - Customer lookup & guest order support.
+  - Payment collection (Cash, Card, UPI).
+  - Role-gated discount approval.
+- [ ] Printable Invoice & Receipt (Browser CSS print template, thermal 58mm & 80mm support).
+- [ ] Order cancellation & refund handling with permission checks and audit logs.
+
+### Phase 8: Kitchen Display System (KDS) & KOT Queue
+- [ ] Modern 3D/Isometric Table Overview preserving existing aesthetic.
+- [ ] Active orders grid with elapsed timers & late-order color alerts.
+- [ ] Status transition state machine (New → Accepted → Preparing → Ready → Served).
+- [ ] PII redaction (customer phone & address hidden from kitchen display).
+- [ ] Real-time AJAX polling (3–5s) against lightweight delta JSON endpoints (zero full-page reloads).
+- [ ] Audio alert for new orders with user-gesture autoplay toggle ("Enable Sound").
+- [ ] Kitchen Order Ticket (KOT) print queue:
+  - Browser print template (58mm/80mm thermal).
+  - Reprint marking ("REPRINT" watermark) & duplicate prevention.
+  - 🚫 *Physical automated silent printing via local print agent marked BLOCKED until physical hardware connection.*
+
+### Phase 9: Live Tracking & Manual Delivery Management
+- [ ] Secure public tracking route (`/track/{token}`) with zero sequential ID exposure.
+- [ ] Mobile-first tracking page preserving existing warm theme & live progress bar.
+- [ ] Honest ETA calculation based on real status and item prep times.
+- [ ] Seamless "Add More Items" retaining table session and customer context.
+- [ ] Manual Delivery / Rapido logistics module:
+  - Staff entry for delivery partner booking reference, fee, tracking URL.
+  - Status lifecycle (Awaiting Booking → Booked → Picked Up → In Transit → Delivered / Failed).
+  - Separate reporting of delivery fees from food revenue.
+
+### Phase 10: CRM & Loyalty Rewards Engine
+- [ ] Customer Relationship Management (CRM):
+  - Unique customer identifier (`VAL-C000001`).
+  - Privacy safeguards (strictly authenticated access, no public phone lookups).
+  - Order history, lifetime spend, average order value, last visit date.
+  - Customer marketing consent flags.
+- [ ] Loyalty Points System:
+  - Configurable points rule (default: 10 points per completed order).
+  - Immutable ledger table (`earn`, `redeem`, `reverse`, `adjust`).
+  - Idempotent award on order completion.
+  - Transactional redemption with row locking (`SELECT balance ... FOR UPDATE`).
+  - Automatic reversal on order cancellation or refund.
+
+### Phase 11: Business Intelligence & Reports
+- [ ] Date-range analytics dashboard (Today, Yesterday, Last 7 Days, Month-to-date, Custom range).
+- [ ] Financial metrics breakdown: Gross Sales, Item Discounts, Taxes, Delivery Fees, Refunds, Net Sales, Cash Collected.
+- [ ] Channel performance (Dine-in, Website, POS, Phone, WhatsApp, Swiggy, Zomato).
+- [ ] Best sellers & inventory volume reports.
+- [ ] Kitchen operational metrics (average preparation time, delayed orders).
+- [ ] Secure CSV export for accounting and audits (role-protected).
+
+### Phase 12: Optional Third-Party Adapters
+- [ ] Free WhatsApp click-to-chat generator (`https://wa.me/...` with prefilled order & tracking message).
+- [ ] 🚫 *WhatsApp Cloud API adapter (structured behind `WHATSAPP_API_ENABLED=false` until Meta credentials provided).*
+- [ ] Razorpay payment gateway integration (server-side order creation, checkout modal, signature verification, webhook handler, idempotency). Configurable test mode switch (`RAZORPAY_ENABLED=false`).
+- [ ] 🚫 *Make.com outgoing webhook dispatcher (structured behind `MAKE_WEBHOOK_ENABLED=false` until webhook URL provided).*
+
+### Phase 13: Automated Testing & Security Verification
+- [ ] Automated PHP test suite:
+  - Auth & RBAC access control tests.
+  - Server-side pricing enforcement test.
+  - Double-click order prevention (idempotency) test.
+  - Table allocation concurrency locking test.
+  - Status transition state machine validation test.
+  - Secure random tracking token validation test.
+  - Loyalty point ledger idempotency & concurrent redemption test.
+  - Cancellation/refund permission test.
+- [ ] Security audit (SQL injection, XSS escaping, CSRF enforcement, upload restrictions, `.env` file shielding).
+- [ ] Database backup & restore script test.
+
+### Phase 14: Deployment Documentation & Runbook
+- [ ] XAMPP Windows setup guide (step-by-step commands, vhost, Apache config, MariaDB setup).
+- [ ] Hostinger Shared / VPS deployment guide (`.htaccess` docroot shielding, database migration, file permissions, SSL).
+- [ ] Maintenance runbook: backup routines, password rotation, log rotation, rollback procedure.
