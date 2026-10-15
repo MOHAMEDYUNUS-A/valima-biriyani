@@ -88,6 +88,8 @@ class Router
                 }
                 $methodAllowed = true;
             }
+        }
+
         // Smart Subdirectory Fallback: If no route matched directly, check if URI has a subfolder prefix (e.g. /hotel/hotel/install)
         if (!$matchedRoute) {
             foreach ($this->routes as $route) {
