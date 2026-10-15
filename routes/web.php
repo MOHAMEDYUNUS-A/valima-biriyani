@@ -29,6 +29,9 @@ $router->get('/privacy-policy', [PublicController::class, 'privacyPolicy']);
 $router->get('/terms-of-service', [PublicController::class, 'termsOfService']);
 $router->get('/refund-policy', [PublicController::class, 'refundPolicy']);
 $router->get('/delivery-policy', [PublicController::class, 'deliveryPolicy']);
+$router->get('/styleguide', function (Request $request) {
+    echo View::render('styleguide');
+});
 
 // ── Dine-in Table Flow & Checkout ──
 $router->get('/dine-in', [OrderController::class, 'dineIn']);
@@ -93,3 +96,16 @@ $router->get('/track/{token}/add-more', [\App\Controllers\TrackingController::cl
 
 // ── Admin Delivery Management (Rapido) ──
 $router->post('/admin/orders/{id}/delivery', [\App\Controllers\DeliveryController::class, 'update'], array_merge($staffAuth, [CsrfMiddleware::class]));
+
+// ── Admin CRM & Loyalty Management ──
+$router->get('/admin/crm', [\App\Controllers\CrmController::class, 'index'], $adminAuth);
+$router->get('/admin/crm/{id}', [\App\Controllers\CrmController::class, 'show'], $adminAuth);
+$router->post('/admin/crm/{id}/adjust', [\App\Controllers\CrmController::class, 'adjustPoints'], array_merge($adminAuth, [CsrfMiddleware::class]));
+
+// ── Admin Reports & Analytics ──
+$router->get('/admin/reports', [\App\Controllers\ReportController::class, 'index'], $adminAuth);
+$router->get('/admin/reports/export.csv', [\App\Controllers\ReportController::class, 'exportCsv'], $adminAuth);
+
+// ── Admin Settings & Integrations ──
+$router->get('/admin/settings', [\App\Controllers\SettingsController::class, 'index'], $adminAuth);
+

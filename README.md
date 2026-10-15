@@ -67,6 +67,34 @@ valima-biriyani/
 
 ---
 
+## 🎨 UI/UX Design System (Valima Biriyani)
+
+The user interface matches the approved premium restaurant mockup:
+- **Color Palette:**
+  - Background: Cream `#FBF6EC`
+  - Text & Accents: Near-Black `#14110C`
+  - Primary CTA & Highlights: Royal Gold `#F5B800`
+  - Food Accents: Rich Copper `#B8651B`
+- **Typography:** Google Fonts `Playfair Display` (headings) + `Inter` (UI elements).
+- **Icons:** Inline Lucide SVG icons via `Icon::render($name, $class)`.
+- **Interactivity:** Lightweight standalone Alpine.js 3.14 (`public/assets/js/alpine.min.js`) for modal bottom-sheets, mobile drawers, and steppers.
+- **Charts:** Zero-dependency pure SVG Donut chart and Channel bar charts.
+- **Component Library & Styleguide:** Available at `/styleguide` featuring buttons, inputs, radio cards, status badges, and stat cards.
+
+---
+
+## 🧪 Automated Testing
+
+Valima Biriyani includes 10 standalone test suites with **217 automated assertions** covering auth, RBAC, server pricing, concurrency, KDS, tracking, loyalty, reports, and settings:
+
+```powershell
+# Run all test suites
+Get-ChildItem -Path tests -Filter "*Test.php" | ForEach-Object { php $_.FullName }
+```
+
+---
+
 ## 📋 Project Roadmap & Phases
 
 See [CHECKLIST.md](file:///c:/Users/niran/Downloads/hotel/CHECKLIST.md) for full phase status and deliverables.
+

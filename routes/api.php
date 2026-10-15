@@ -43,3 +43,22 @@ $router->post('/api/kitchen/orders/{id}/status', [\App\Controllers\KitchenContro
 // Customer Tracking API
 $router->get('/api/track/{token}', [\App\Controllers\TrackingController::class, 'statusApi']);
 
+// Authenticated Staff Customer Loyalty Balance API
+$router->get('/api/customers/{id}/loyalty', function (Request $request, string $id) {
+    $cid = (int)$id;
+    $customer = \App\Helpers\Database::fetchOne("SELECT id, name, phone, loyalty_points FROM customers WHERE id = :id", [':id' => $cid]);
+    if (!$customer) {
+        \App\Helpers\Response::error('Customer not found.', 404);
+        return;
+    }
+    $settings = \App\Services\LoyaltyService::getSettings();
+    \App\Helpers\Response::success([
+        'customer_id' => $cid,
+        'name' => $customer['name'],
+        'points' => (int)$customer['loyalty_points'],
+        'value_in_inr' => round((int)$customer['loyalty_points'] * (float)$settings['rupee_per_point'], 2),
+        'min_redemption_points' => $settings['min_redemption_points'],
+        'can_redeem' => (int)$customer['loyalty_points'] >= $settings['min_redemption_points'],
+    ]);
+}, $staffAuth);
+

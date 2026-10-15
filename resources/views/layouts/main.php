@@ -3,367 +3,179 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= \App\Helpers\Security::e($title ?? 'Authentic Dum Biriyani & More') ?> | <?= \App\Helpers\Security::e($app['name']) ?></title>
-    <meta name="description" content="Experience authentic Dum Biriyani, flavorful Fried Rice, Hakka Noodles and culinary delights at Valima Biriyani. Dine-in, Takeaway and Online Ordering.">
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Poppins:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-    
-    <!-- Design System CSS -->
-    <style>
-        :root {
-            --primary: #FF6B2C;
-            --primary-light: #FFF0E9;
-            --primary-mid: #FFD6BF;
-            --primary-dark: #E05520;
-            --accent: #FFB800;
-            --accent-light: #FFF8E1;
-            --surface: #FFFFFF;
-            --bg: #FFF8F5;
-            --text: #1C0A00;
-            --text-2: #7A5C4E;
-            --text-3: #B89080;
-            --border: #F0DDD5;
-            --success: #1EA87A;
-            --success-light: #E6F7F1;
-            --danger: #E53935;
-            --radius-sm: 8px;
-            --radius-md: 14px;
-            --radius-lg: 20px;
-            --shadow-sm: 0 1px 4px rgba(255,107,44,0.08);
-            --shadow-md: 0 4px 20px rgba(255,107,44,0.12);
-            --shadow-lg: 0 8px 32px rgba(255,107,44,0.16);
-            --font-display: 'Playfair Display', serif;
-            --font-heading: 'Poppins', sans-serif;
-            --font-body: 'DM Sans', sans-serif;
-        }
+    <title><?= \App\Helpers\Security::e($title ?? 'Authentic Biryani, Rich in Tradition') ?> | <?= \App\Helpers\Security::e($app['name']) ?></title>
+    <meta name="description" content="Experience authentic Valima Biriyani, rich in tradition. Handcrafted dum biriyani, kebabs, and authentic sides. Order online for delivery, pickup, or dine-in.">
 
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    <!-- Precompiled Design System CSS -->
+    <link rel="stylesheet" href="/assets/css/app.css">
 
-        body {
-            font-family: var(--font-body);
-            background: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        /* ── Top Announcement / Nav ── */
-        .site-nav {
-            background: #FFFFFF;
-            border-bottom: 1px solid var(--border);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .nav-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0.8rem 1.2rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .brand-link {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .brand-logo-icon {
-            width: 38px;
-            height: 38px;
-            background: linear-gradient(135deg, var(--primary) 0%, #FF9A5C 100%);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-size: 20px;
-            box-shadow: 0 3px 10px rgba(255,107,44,0.3);
-        }
-
-        .brand-text-block {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .brand-title {
-            font-family: var(--font-heading);
-            font-size: 19px;
-            font-weight: 700;
-            color: var(--text);
-            line-height: 1.1;
-            letter-spacing: -0.3px;
-        }
-
-        .brand-tag {
-            font-size: 10px;
-            letter-spacing: 1.8px;
-            text-transform: uppercase;
-            color: var(--primary-dark);
-            font-weight: 600;
-        }
-
-        .nav-menu {
-            display: flex;
-            align-items: center;
-            gap: 1.2rem;
-            list-style: none;
-        }
-
-        .nav-menu a {
-            text-decoration: none;
-            color: var(--text-2);
-            font-size: 14px;
-            font-weight: 500;
-            transition: color 0.15s ease;
-        }
-
-        .nav-menu a:hover {
-            color: var(--primary);
-        }
-
-        .nav-actions {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .btn-order-nav {
-            background: var(--primary);
-            color: #fff !important;
-            padding: 8px 18px;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 13.5px;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            transition: background 0.15s, transform 0.1s;
-        }
-
-        .btn-order-nav:hover {
-            background: var(--primary-dark);
-            transform: translateY(-1px);
-        }
-
-        /* ── Flash Messages ── */
-        .flash-wrap {
-            max-width: 1200px;
-            margin: 1rem auto 0;
-            padding: 0 1.2rem;
-            width: 100%;
-        }
-
-        .flash {
-            padding: 12px 18px;
-            border-radius: var(--radius-sm);
-            font-size: 14px;
-            font-weight: 500;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .flash-success {
-            background: var(--success-light);
-            color: var(--success);
-            border: 1px solid #bbf7d0;
-        }
-
-        .flash-error {
-            background: #fff1f0;
-            color: var(--danger);
-            border: 1px solid #ffd5d2;
-        }
-
-        /* ── Page Content ── */
-        main.main-content {
-            flex: 1;
-            width: 100%;
-        }
-
-        /* ── Footer ── */
-        .site-footer {
-            background: #1C0A00;
-            color: #E8DDD8;
-            padding: 3rem 1.2rem 1.5rem;
-            margin-top: 4rem;
-        }
-
-        .footer-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1.5fr;
-            gap: 2.5rem;
-            padding-bottom: 2.5rem;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-        }
-
-        .footer-col h4 {
-            font-family: var(--font-heading);
-            font-size: 16px;
-            color: #fff;
-            margin-bottom: 1rem;
-            font-weight: 600;
-        }
-
-        .footer-col p {
-            font-size: 13.5px;
-            line-height: 1.6;
-            color: #B89080;
-        }
-
-        .footer-col ul {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .footer-col ul a {
-            color: #B89080;
-            text-decoration: none;
-            font-size: 13.5px;
-            transition: color 0.15s;
-        }
-
-        .footer-col ul a:hover {
-            color: var(--primary);
-        }
-
-        .footer-bottom {
-            max-width: 1200px;
-            margin: 1.5rem auto 0;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 12.5px;
-            color: #7A5C4E;
-        }
-
-        @media (max-width: 768px) {
-            .footer-inner {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-            .nav-menu {
-                display: none;
-            }
-            .footer-bottom {
-                flex-direction: column;
-                gap: 10px;
-                text-align: center;
-            }
-        }
-    </style>
+    <!-- Standalone Alpine.js -->
+    <script src="/assets/js/alpine.min.js" defer></script>
 </head>
-<body>
+<body class="bg-background text-foreground flex flex-col min-h-screen" x-data="{ mobileCartCount: 0 }">
 
-    <!-- Navigation Header -->
-    <nav class="site-nav">
-        <div class="nav-inner">
-            <a href="/" class="brand-link">
-                <div class="brand-logo-icon">🍲</div>
-                <div class="brand-text-block">
-                    <span class="brand-title"><?= \App\Helpers\Security::e($app['restaurant']['name']) ?></span>
-                    <span class="brand-tag">Royal Culinary Experience</span>
+    <!-- ── DARK STICKY HEADER (Matches Mockup) ── -->
+    <header class="bg-dark text-white border-b border-dark sticky top-0 z-40 shadow-soft">
+        <div class="container py-3 flex items-center justify-between">
+            <!-- Brand Logo & Name -->
+            <a href="/" class="flex items-center gap-3 text-white" style="text-decoration: none;">
+                <img src="/assets/images/valima-logo.jpg" alt="Valima Biriyani" style="height: 42px; border-radius: 6px; object-fit: contain;">
+                <div class="hidden sm:block">
+                    <div class="font-serif text-white font-bold text-lg leading-tight tracking-wide">VALIMA BIRIYANI</div>
+                    <div style="font-size: 0.65rem; color: var(--primary); letter-spacing: 2px; text-transform: uppercase; font-weight: 700;">Biriyani Specialist</div>
                 </div>
             </a>
 
-            <ul class="nav-menu">
-                <li><a href="/">Home</a></li>
-                <li><a href="/menu">Menu</a></li>
-                <li><a href="/about">About Us</a></li>
-                <li><a href="/contact">Contact</a></li>
-                <li><a href="/faq">FAQ</a></li>
-            </ul>
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
+                <a href="/" class="text-white hover:text-primary transition" style="text-decoration: none;">Home</a>
+                <a href="/menu" class="text-white hover:text-primary transition" style="text-decoration: none;">Menu</a>
+                <a href="/about" class="text-white hover:text-primary transition" style="text-decoration: none;">About</a>
+                <a href="/contact" class="text-white hover:text-primary transition" style="text-decoration: none;">Contact</a>
+            </nav>
 
-            <div class="nav-actions">
-                <a href="/dine-in" class="btn-order-nav">
-                    <span>Order Online</span>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            <!-- Actions (Search, Cart & Order Online Button) -->
+            <div class="flex items-center gap-3">
+                <a href="/menu" class="text-white hover:text-primary p-2" title="Search Menu">
+                    <?= \App\Helpers\Icon::render('search', 'w-5 h-5') ?>
+                </a>
+
+                <a href="/menu" class="hidden sm:inline-flex btn btn-primary btn-sm">
+                    Order Online &rarr;
                 </a>
             </div>
         </div>
-    </nav>
+    </header>
 
-    <!-- Flash Alerts -->
+    <!-- ── FLASH NOTIFICATIONS ── -->
     <?php if (!empty($flashSuccess)): ?>
-        <div class="flash-wrap">
-            <div class="flash flash-success">
-                <span>✅</span>
-                <div><?= \App\Helpers\Security::e($flashSuccess) ?></div>
+        <div class="container mt-4">
+            <div class="p-4 rounded-md bg-green-50 border border-green-200 text-green-800 flex items-center gap-3">
+                <?= \App\Helpers\Icon::render('check', 'w-5 h-5 text-green-600') ?>
+                <span><?= htmlspecialchars($flashSuccess) ?></span>
             </div>
         </div>
     <?php endif; ?>
 
     <?php if (!empty($flashError)): ?>
-        <div class="flash-wrap">
-            <div class="flash flash-error">
-                <span>⚠️</span>
-                <div><?= \App\Helpers\Security::e($flashError) ?></div>
+        <div class="container mt-4">
+            <div class="p-4 rounded-md bg-red-50 border border-red-200 text-red-800 flex items-center gap-3">
+                <?= \App\Helpers\Icon::render('x', 'w-5 h-5 text-red-600') ?>
+                <span><?= htmlspecialchars($flashError) ?></span>
             </div>
         </div>
     <?php endif; ?>
 
-    <!-- Main Page Content -->
-    <main class="main-content">
-        <?= $content ?? '' ?>
+    <!-- ── MAIN PAGE CONTENT ── -->
+    <main class="flex-grow pb-16 md:pb-0">
+        <?= $content ?>
     </main>
 
-    <!-- Footer -->
-    <footer class="site-footer">
-        <div class="footer-inner">
-            <div class="footer-col">
-                <h4><?= \App\Helpers\Security::e($app['restaurant']['name']) ?></h4>
-                <p><?= \App\Helpers\Security::e($app['restaurant']['tagline']) ?></p>
-                <p style="margin-top: 10px;"><?= \App\Helpers\Security::e($app['restaurant']['address']) ?></p>
-                <p style="margin-top: 6px;">Phone: <?= \App\Helpers\Security::e($app['restaurant']['phone']) ?></p>
+    <!-- ── MOBILE BOTTOM NAVIGATION (Matches Mockup Screen 9) ── -->
+    <div class="mobile-bottom-nav md:hidden">
+        <a href="/" class="mobile-nav-item <?= empty($_SERVER['REQUEST_URI']) || $_SERVER['REQUEST_URI'] === '/' ? 'active' : '' ?>">
+            <?= \App\Helpers\Icon::render('shopping-bag', 'w-5 h-5') ?>
+            <span>Home</span>
+        </a>
+        <a href="/menu" class="mobile-nav-item <?= str_contains($_SERVER['REQUEST_URI'] ?? '', '/menu') ? 'active' : '' ?>">
+            <?= \App\Helpers\Icon::render('utensils', 'w-5 h-5') ?>
+            <span>Menu</span>
+        </a>
+        <a href="/checkout" class="mobile-nav-item <?= str_contains($_SERVER['REQUEST_URI'] ?? '', '/checkout') ? 'active' : '' ?>">
+            <div style="position: relative;">
+                <?= \App\Helpers\Icon::render('shopping-cart', 'w-5 h-5') ?>
+                <span id="navCartBadge" style="display: none; position: absolute; -top: 4px; -right: 6px; background: var(--primary); color: #000; font-size: 10px; font-weight: 800; border-radius: 999px; width: 15px; height: 15px; text-align: center; line-height: 15px;">0</span>
             </div>
-            <div class="footer-col">
-                <h4>Quick Links</h4>
-                <ul>
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/menu">Browse Menu</a></li>
-                    <li><a href="/dine-in">Table Ordering</a></li>
-                    <li><a href="/about">Our Story</a></li>
+            <span>Cart</span>
+        </a>
+        <a href="/dine-in" class="mobile-nav-item">
+            <?= \App\Helpers\Icon::render('sparkles', 'w-5 h-5') ?>
+            <span>Dine-In</span>
+        </a>
+        <a href="/admin" class="mobile-nav-item">
+            <?= \App\Helpers\Icon::render('user', 'w-5 h-5') ?>
+            <span>Staff</span>
+        </a>
+    </div>
+
+    <!-- ── FOOTER (Dark & Elegant) ── -->
+    <footer class="bg-dark text-white border-t border-dark py-12 mt-12 hidden md:block">
+        <div class="container grid" style="grid-template-columns: 2fr 1fr 1fr 1fr; gap: 2rem;">
+            <div>
+                <div class="flex items-center gap-3 mb-4">
+                    <img src="/assets/images/valima-logo.jpg" alt="Valima Biriyani" style="height: 48px; border-radius: 6px;">
+                    <div>
+                        <div class="font-serif font-bold text-xl text-white">VALIMA BIRIYANI</div>
+                        <div style="font-size: 0.7rem; color: var(--primary); letter-spacing: 2px;">Biriyani Specialist</div>
+                    </div>
+                </div>
+                <p style="color: #999; font-size: 0.9rem; line-height: 1.6; max-width: 320px;">
+                    Experience the royal taste of authentic dum biriyani crafted with pure spices, succulent meats, and traditional recipes.
+                </p>
+            </div>
+
+            <div>
+                <h4 class="font-serif font-bold text-base mb-3 text-primary">Quick Links</h4>
+                <ul style="list-style: none; font-size: 0.875rem; display: flex; flex-direction: column; gap: 8px;">
+                    <li><a href="/" style="color: #bbb; text-decoration: none;">Home</a></li>
+                    <li><a href="/menu" style="color: #bbb; text-decoration: none;">Our Special Menu</a></li>
+                    <li><a href="/dine-in" style="color: #bbb; text-decoration: none;">Table Dine-In</a></li>
+                    <li><a href="/about" style="color: #bbb; text-decoration: none;">About Valima</a></li>
                 </ul>
             </div>
-            <div class="footer-col">
-                <h4>Policies</h4>
-                <ul>
-                    <li><a href="/privacy-policy">Privacy Policy</a></li>
-                    <li><a href="/terms-of-service">Terms of Service</a></li>
-                    <li><a href="/refund-policy">Refund & Cancellation</a></li>
-                    <li><a href="/delivery-policy">Delivery Policy</a></li>
+
+            <div>
+                <h4 class="font-serif font-bold text-base mb-3 text-primary">Customer Care</h4>
+                <ul style="list-style: none; font-size: 0.875rem; display: flex; flex-direction: column; gap: 8px;">
+                    <li><a href="/contact" style="color: #bbb; text-decoration: none;">Contact & WhatsApp</a></li>
+                    <li><a href="/faq" style="color: #bbb; text-decoration: none;">FAQs</a></li>
+                    <li><a href="/refund-policy" style="color: #bbb; text-decoration: none;">Refund Policy</a></li>
+                    <li><a href="/delivery-policy" style="color: #bbb; text-decoration: none;">Delivery Policy</a></li>
                 </ul>
             </div>
-            <div class="footer-col">
-                <h4>Operating Hours</h4>
-                <p>Monday – Sunday</p>
-                <p style="color: #fff; font-weight: 600; margin-top: 4px;">11:00 AM – 11:30 PM</p>
-                <p style="margin-top: 10px; font-size: 12px; color: #7A5C4E;">Counter Cash & UPI Accepted</p>
+
+            <div>
+                <h4 class="font-serif font-bold text-base mb-3 text-primary">Opening Hours</h4>
+                <div style="font-size: 0.85rem; color: #bbb; line-height: 1.6;">
+                    Mon – Sun: 11:30 AM – 11:00 PM<br>
+                    <span style="color: var(--primary);">Fresh Dum Biriyani Batches Daily</span>
+                </div>
+                <div style="margin-top: 1rem;">
+                    <a href="https://wa.me/919876543210" target="_blank" class="btn btn-outline-gold btn-sm" style="display: inline-flex;">
+                        <?= \App\Helpers\Icon::render('phone', 'w-4 h-4') ?> WhatsApp Direct
+                    </a>
+                </div>
             </div>
         </div>
-        <div class="footer-bottom">
-            <div>&copy; <?= date('Y') ?> <?= \App\Helpers\Security::e($app['restaurant']['name']) ?>. All rights reserved.</div>
-            <div>Built on Free-Stack Core PHP & MySQL.</div>
+
+        <div class="container" style="border-top: 1px solid #222; margin-top: 2rem; padding-top: 1.5rem; text-align: center; color: #777; font-size: 0.8rem;">
+            &copy; <?= date('Y') ?> Valima Biriyani. All rights reserved. Built with Core PHP & Free-Stack Architecture.
         </div>
     </footer>
 
+    <!-- Global Cart Count Synchronizer -->
+    <script>
+        function updateGlobalCartBadge() {
+            try {
+                const raw = localStorage.getItem('valima_cart');
+                const badge = document.getElementById('navCartBadge');
+                if (!badge) return;
+                if (raw) {
+                    const cart = JSON.parse(raw);
+                    const count = Object.values(cart).reduce((sum, item) => sum + (item.qty || 1), 0);
+                    if (count > 0) {
+                        badge.innerText = count;
+                        badge.style.display = 'block';
+                    } else {
+                        badge.style.display = 'none';
+                    }
+                } else {
+                    badge.style.display = 'none';
+                }
+            } catch (e) {}
+        }
+        window.addEventListener('load', updateGlobalCartBadge);
+        window.addEventListener('storage', updateGlobalCartBadge);
+    </script>
 </body>
 </html>

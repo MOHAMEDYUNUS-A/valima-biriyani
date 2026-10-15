@@ -2,6 +2,9 @@
 
 namespace App\Helpers;
 
+require_once __DIR__ . '/Icon.php';
+require_once __DIR__ . '/Component.php';
+
 use RuntimeException;
 
 class View

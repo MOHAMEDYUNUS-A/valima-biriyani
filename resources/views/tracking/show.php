@@ -1,532 +1,193 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Track Order #<?= htmlspecialchars($order['order_number']) ?> — Valima Biriyani</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Cinzel:wght@600;700;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg: #0d0f12;
-            --surface: #161920;
-            --surface-elevated: #20242f;
-            --border: #293040;
-            --text-main: #f3f4f6;
-            --text-muted: #94a3b8;
-            --gold: #d4a359;
-            --gold-light: #fbeedb;
-            --orange: #f97316;
-            --green: #22c55e;
-            --blue: #38bdf8;
-            --radius: 14px;
-        }
-
-        *, *::before, *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background: var(--bg);
-            color: var(--text-main);
-            min-height: 100vh;
-            padding-bottom: 4rem;
-        }
-
-        /* ── NAVBAR ── */
-        .track-nav {
-            background: var(--surface);
-            border-bottom: 1px solid var(--border);
-            padding: 1rem 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .track-brand {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .brand-icon {
-            font-size: 1.4rem;
-        }
-
-        .brand-name {
-            font-family: 'Cinzel', serif;
-            font-size: 1.15rem;
-            font-weight: 700;
-            color: #fff;
-        }
-
-        .live-chip {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            background: rgba(34, 197, 94, 0.1);
-            border: 1px solid rgba(34, 197, 94, 0.3);
-            color: var(--green);
-            padding: 4px 12px;
-            border-radius: 20px;
-        }
-
-        .live-dot {
-            width: 7px;
-            height: 7px;
-            background: var(--green);
-            border-radius: 50%;
-            animation: pulse 1.8s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.4; transform: scale(0.85); }
-        }
-
-        /* ── TRACKING CONTAINER ── */
-        .container {
-            max-width: 680px;
-            margin: 2rem auto;
-            padding: 0 1.25rem;
-        }
-
-        .order-hero-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 1.75rem;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-            margin-bottom: 1.5rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .order-hero-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; height: 3px;
-            background: linear-gradient(90deg, var(--gold), #ea580c);
-        }
-
-        .hero-top {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            margin-bottom: 1.25rem;
-        }
-
-        .order-num-label {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 700;
-        }
-
-        .order-num-val {
-            font-size: 1.6rem;
-            font-weight: 800;
-            color: #fff;
-            margin-top: 2px;
-        }
-
-        .order-type-badge {
-            font-size: 0.8rem;
-            font-weight: 700;
-            padding: 4px 10px;
-            border-radius: 6px;
-            background: var(--surface-elevated);
-            color: var(--gold);
-        }
-
-        /* ── PROGRESS STEPPER ── */
-        .progress-stepper {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: relative;
-            margin: 2rem 0 1.5rem 0;
-        }
-
-        .progress-stepper::before {
-            content: '';
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            right: 20px;
-            height: 3px;
-            background: var(--border);
-            z-index: 1;
-        }
-
-        .progress-bar-fill {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            height: 3px;
-            background: linear-gradient(90deg, var(--gold), var(--green));
-            z-index: 2;
-            transition: width 0.5s ease;
-        }
-
-        .step-node {
-            position: relative;
-            z-index: 3;
-            text-align: center;
-            width: 80px;
-        }
-
-        .node-circle {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--surface-elevated);
-            border: 2px solid var(--border);
-            margin: 0 auto 8px auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.1rem;
-            transition: all 0.3s;
-        }
-
-        .step-node.active .node-circle {
-            background: var(--gold);
-            border-color: var(--gold);
-            color: #000;
-            box-shadow: 0 0 12px rgba(212, 163, 89, 0.4);
-        }
-
-        .step-node.completed .node-circle {
-            background: var(--green);
-            border-color: var(--green);
-            color: #fff;
-        }
-
-        .node-label {
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--text-muted);
-        }
-
-        .step-node.active .node-label,
-        .step-node.completed .node-label {
-            color: #fff;
-            font-weight: 700;
-        }
-
-        /* ── DELIVERY / TABLE INFO ── */
-        .info-box {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 1.25rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .info-header {
-            font-size: 0.95rem;
-            font-weight: 700;
-            margin-bottom: 0.75rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .info-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.85rem;
-            padding: 4px 0;
-            color: var(--text-muted);
-        }
-
-        .info-val {
-            font-weight: 600;
-            color: var(--text-main);
-        }
-
-        .btn-track-external {
-            display: inline-block;
-            background: var(--blue);
-            color: #000;
-            text-decoration: none;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            margin-top: 8px;
-        }
-
-        /* ── ITEMS SUMMARY ── */
-        .items-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 1.25rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .item-line {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            font-size: 0.9rem;
-        }
-
-        .item-line:last-child {
-            border-bottom: none;
-        }
-
-        .total-box {
-            border-top: 2px dashed var(--border);
-            margin-top: 10px;
-            padding-top: 10px;
-            display: flex;
-            justify-content: space-between;
-            font-size: 1.1rem;
-            font-weight: 800;
-            color: var(--gold);
-        }
-
-        /* ── ACTIONS ── */
-        .track-actions {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-
-        .btn-action {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            font-weight: 700;
-            text-decoration: none;
-            transition: all 0.2s;
-            text-align: center;
-        }
-
-        .btn-add-more {
-            background: var(--gold);
-            color: #000;
-        }
-
-        .btn-add-more:hover {
-            background: #c59247;
-        }
-
-        .btn-support {
-            background: rgba(34, 197, 94, 0.15);
-            border: 1px solid rgba(34, 197, 94, 0.4);
-            color: var(--green);
-        }
-
-        .btn-support:hover {
-            background: rgba(34, 197, 94, 0.25);
-        }
-    </style>
-</head>
-<body>
-
-    <nav class="track-nav">
-        <a href="/" class="track-brand">
-            <span class="brand-icon">🍛</span>
-            <span class="brand-name">VALIMA BIRIYANI</span>
-        </a>
-        <div class="live-chip">
-            <span class="live-dot"></span>
-            <span id="liveStatusText">Live Tracking</span>
+<!-- ── ORDER CONFIRMED CELEBRATION BANNER (Matches Mockup Screen 7) ── -->
+<div class="bg-dark text-white py-10 px-4 mb-8 border-b border-dark text-center relative overflow-hidden" style="background: #14110C;">
+    <div class="max-w-md mx-auto relative z-10">
+        <!-- Animated Green Checkmark Icon -->
+        <div style="width: 64px; height: 64px; border-radius: 50%; background: #16A34A; color: #FFF; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem auto; box-shadow: 0 0 25px rgba(22, 163, 74, 0.4);">
+            <?= \App\Helpers\Icon::render('check', 'w-8 h-8') ?>
         </div>
-    </nav>
 
-    <div class="container">
-        <!-- ORDER HERO -->
-        <div class="order-hero-card">
-            <div class="hero-top">
-                <div>
-                    <div class="order-num-label">Order Reference</div>
-                    <div class="order-num-val">#<?= htmlspecialchars($order['order_number']) ?></div>
-                </div>
-                <div class="order-type-badge">
+        <h1 class="font-serif font-extrabold text-2xl md:text-3xl text-white mb-2">
+            Order Confirmed!
+        </h1>
+        <p style="color: #c5bba8; font-size: 0.95rem; margin-bottom: 0.5rem;">
+            Your order has been placed successfully and sent to our kitchen.
+        </p>
+
+        <div style="display: inline-block; background: rgba(245, 184, 0, 0.15); border: 1px solid rgba(245, 184, 0, 0.35); padding: 4px 16px; border-radius: 999px; font-size: 0.85rem; font-weight: 700; color: var(--primary); margin-bottom: 1.5rem;">
+            Order Number: #<?= htmlspecialchars($order['order_number']) ?>
+        </div>
+
+        <div class="flex items-center justify-center gap-3">
+            <a href="#tracking-timeline" class="btn btn-primary btn-sm">
+                Track Order &darr;
+            </a>
+            <a href="/pos/receipt/<?= (int)$order['id'] ?>" target="_blank" class="btn btn-outline btn-sm text-white" style="border-color: #444;">
+                View Invoice
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="container max-w-xl pb-12" id="tracking-timeline">
+    <!-- ── ORDER SUMMARY CARD ── -->
+    <div class="card p-5 mb-6 shadow-soft" style="background: #FFFFFF;">
+        <div class="flex items-center justify-between pb-3 border-b border-border mb-3">
+            <div>
+                <span class="text-xs text-muted-foreground uppercase font-bold tracking-wider">Fulfilment</span>
+                <div class="font-serif font-bold text-lg text-foreground">
                     <?php if ($order['order_type'] === 'dine_in'): ?>
-                        Table <?= (int)$order['table_id'] ?>
+                        🪑 Dine-in Table <?= (int)$order['table_id'] ?>
                     <?php elseif ($order['order_type'] === 'delivery'): ?>
-                        🛵 Delivery
+                        🛵 Home Delivery
                     <?php else: ?>
-                        🛍️ Takeaway
+                        🛍️ Takeaway / Pickup
                     <?php endif; ?>
                 </div>
             </div>
 
-            <!-- STEPPER -->
-            <?php
-                $step = (int)$stepIndex;
-                $pct = match ($step) {
-                    1 => 10,
-                    2 => 40,
-                    3 => 75,
-                    4 => 100,
-                    default => 0,
-                };
-            ?>
-            <div class="progress-stepper">
-                <div class="progress-bar-fill" id="progressFill" style="width: <?= $pct ?>%;"></div>
-
-                <div class="step-node <?= $step > 1 ? 'completed' : ($step === 1 ? 'active' : '') ?>" id="step1">
-                    <div class="node-circle">📝</div>
-                    <div class="node-label">Confirmed</div>
-                </div>
-
-                <div class="step-node <?= $step > 2 ? 'completed' : ($step === 2 ? 'active' : '') ?>" id="step2">
-                    <div class="node-circle">🍳</div>
-                    <div class="node-label">Preparing</div>
-                </div>
-
-                <div class="step-node <?= $step > 3 ? 'completed' : ($step === 3 ? 'active' : '') ?>" id="step3">
-                    <div class="node-circle"><?= $order['order_type'] === 'delivery' ? '🛵' : '🍱' ?></div>
-                    <div class="node-label"><?= $order['order_type'] === 'delivery' ? 'On The Way' : 'Ready' ?></div>
-                </div>
-
-                <div class="step-node <?= $step >= 4 ? 'completed' : '' ?>" id="step4">
-                    <div class="node-circle">✨</div>
-                    <div class="node-label"><?= $order['order_type'] === 'dine_in' ? 'Served' : 'Completed' ?></div>
-                </div>
-            </div>
-
-            <div style="text-align: center; font-size: 0.9rem; color: var(--gold); font-weight: 600;" id="statusSummary">
-                Status: <span id="currentStatusBadge" style="text-transform: capitalize;"><?= htmlspecialchars(str_replace('_', ' ', $order['status'])) ?></span>
+            <div class="text-right">
+                <span class="text-xs text-muted-foreground uppercase font-bold tracking-wider">Total Paid</span>
+                <div class="font-extrabold text-lg text-primary">₹<?= number_format((float)$order['total_amount'], 2) ?></div>
             </div>
         </div>
 
-        <!-- DELIVERY / FULFILLMENT INFO -->
-        <?php if ($order['order_type'] === 'delivery' && !empty($delivery)): ?>
-            <div class="info-box">
-                <div class="info-header">🛵 Delivery Status (<?= htmlspecialchars(ucfirst($delivery['provider_name'])) ?>)</div>
-                <div class="info-row">
-                    <span>Booking Ref:</span>
-                    <span class="info-val"><?= htmlspecialchars($delivery['booking_reference'] ?: 'Pending booking') ?></span>
-                </div>
-                <div class="info-row">
-                    <span>Status:</span>
-                    <span class="info-val" id="deliveryStatusBadge" style="color: var(--gold); text-transform: capitalize;">
-                        <?= htmlspecialchars(str_replace('_', ' ', $delivery['status'])) ?>
-                    </span>
-                </div>
-                <?php if (!empty($delivery['tracking_url'])): ?>
-                    <a href="<?= htmlspecialchars($delivery['tracking_url']) ?>" target="_blank" class="btn-track-external">
-                        🔗 Open Live Delivery Tracking &rarr;
-                    </a>
-                <?php endif; ?>
-            </div>
-        <?php elseif ($order['order_type'] === 'dine_in'): ?>
-            <div class="info-box">
-                <div class="info-header">🪑 Dine-in Service</div>
-                <div class="info-row">
-                    <span>Dining Table:</span>
-                    <span class="info-val">Table <?= (int)$order['table_id'] ?></span>
-                </div>
-                <div class="info-row">
-                    <span>Service:</span>
-                    <span class="info-val">Our staff will serve fresh food directly to your table!</span>
-                </div>
-            </div>
-        <?php endif; ?>
-
-        <!-- ORDER ITEMS -->
-        <div class="items-card">
-            <div class="info-header">🍛 Order Items</div>
+        <!-- Items Mini List -->
+        <div class="space-y-2 mb-3">
             <?php foreach ($items as $item): ?>
-                <div class="item-line">
-                    <div>
-                        <strong><?= (int)$item['quantity'] ?>x</strong> <?= htmlspecialchars($item['item_name']) ?>
-                        <?php if (!empty($item['variant_name'])): ?>
-                            <span style="color: var(--text-muted); font-size: 0.8rem;">(<?= htmlspecialchars($item['variant_name']) ?>)</span>
-                        <?php endif; ?>
-                    </div>
-                    <div>₹<?= number_format((float)$item['subtotal'], 2) ?></div>
+                <div class="flex justify-between text-sm">
+                    <span class="font-medium text-foreground"><?= (int)$item['quantity'] ?>x <?= htmlspecialchars($item['item_name']) ?></span>
+                    <span class="font-bold text-foreground">₹<?= number_format((float)$item['subtotal'], 2) ?></span>
                 </div>
             <?php endforeach; ?>
-
-            <div class="total-box">
-                <span>Total Amount:</span>
-                <span>₹<?= number_format((float)$order['total_amount'], 2) ?></span>
-            </div>
         </div>
 
-        <!-- ACTIONS -->
-        <div class="track-actions">
-            <!-- Add More Items with Session Preservation -->
-            <a href="/track/<?= htmlspecialchars($order['tracking_token']) ?>/add-more" class="btn-action btn-add-more">
-                ➕ Add More Items
-            </a>
-
-            <!-- WhatsApp Support -->
-            <?php
-                $supportText = urlencode("Hello Valima Biriyani, I am inquiring about my Order #{$order['order_number']}.");
-                $waUrl = "https://wa.me/919876543210?text={$supportText}";
-            ?>
-            <a href="<?= $waUrl ?>" target="_blank" class="btn-action btn-support">
-                💬 WhatsApp Help
-            </a>
+        <div class="pt-3 border-t border-border flex items-center justify-between text-xs text-muted-foreground">
+            <span>Payment Method: <?= strtoupper($order['payment_method'] ?? 'CASH') ?></span>
+            <span>Placed: <?= date('h:i A, d M', strtotime($order['created_at'])) ?></span>
         </div>
     </div>
 
-    <!-- POLLING SCRIPT -->
-    <script>
-        const token = <?= json_encode($order['tracking_token']) ?>;
+    <!-- ── ESTIMATED TIME CARD (Matches Mockup Screen 8) ── -->
+    <div class="card p-4 mb-6 flex items-center gap-4 bg-muted border-border" style="background: #FFFDF7; border-left: 4px solid var(--primary);">
+        <div style="font-size: 2rem;">🛵</div>
+        <div>
+            <div style="font-size: 0.725rem; font-weight: 700; text-transform: uppercase; color: var(--muted-foreground);">Estimated Delivery Window</div>
+            <div class="font-serif font-bold text-lg text-foreground">
+                <?= date('h:i A', strtotime($order['created_at'] . ' + 30 minutes')) ?> – <?= date('h:i A', strtotime($order['created_at'] . ' + 45 minutes')) ?>
+            </div>
+            <div class="text-xs text-muted-foreground mt-0.5">Fresh dum batch currently finishing on charcoal</div>
+        </div>
+    </div>
 
-        async function pollOrderStatus() {
-            try {
-                const res = await fetch(`/api/track/${token}`);
-                if (!res.ok) return;
-                const data = await res.json();
+    <!-- ── VERTICAL ORDER TIMELINE (Matches Mockup Screen 8) ── -->
+    <div class="card p-6 mb-6 shadow-soft" style="background: #FFFFFF;">
+        <h3 class="font-serif font-bold text-lg mb-6 pb-2 border-b border-border">Order Progress</h3>
 
-                if (data.success) {
-                    const step = data.step_index;
-                    const fill = document.getElementById('progressFill');
-                    const badge = document.getElementById('currentStatusBadge');
+        <?php
+            $currentStatus = $order['status'];
+            $steps = [
+                'placed' => ['title' => 'Order Placed', 'desc' => 'Order received by restaurant server', 'icon' => 'check'],
+                'confirmed' => ['title' => 'Payment Confirmed', 'desc' => 'Payment authorized & verified', 'icon' => 'check'],
+                'accepted' => ['title' => 'Order Accepted', 'desc' => 'Kitchen acknowledged your order', 'icon' => 'check'],
+                'preparing' => ['title' => 'Preparing in Kitchen', 'desc' => 'Chef layering basmati & tender meat', 'icon' => 'flame'],
+                'ready' => ['title' => $order['order_type'] === 'delivery' ? 'Packed & Ready' : 'Ready to Serve', 'desc' => 'Sealed in insulated tamper-proof bag', 'icon' => 'sparkles'],
+                'out_for_delivery' => ['title' => 'Out for Delivery', 'desc' => 'Rider is on the way to your location', 'icon' => 'truck'],
+                'delivered' => ['title' => $order['order_type'] === 'dine_in' ? 'Served at Table' : 'Delivered', 'desc' => 'Enjoy your authentic Valima Biriyani feast!', 'icon' => 'shield-check'],
+            ];
 
-                    badge.innerText = data.status.replace(/_/g, ' ');
+            // Determine active index
+            $statusRank = [
+                'new' => 1, 'pending' => 1, 'placed' => 1,
+                'confirmed' => 2,
+                'accepted' => 3,
+                'preparing' => 4,
+                'ready' => 5,
+                'out_for_delivery' => 6,
+                'served' => 7, 'delivered' => 7, 'completed' => 7
+            ];
+            $currentRank = $statusRank[$currentStatus] ?? 3;
+        ?>
 
-                    const pcts = { 1: 10, 2: 40, 3: 75, 4: 100 };
-                    fill.style.width = (pcts[step] || 10) + '%';
+        <div class="relative pl-6 space-y-6" style="border-left: 2px solid var(--border); margin-left: 12px;">
+            <?php $i = 1; foreach ($steps as $key => $meta): ?>
+                <?php
+                    $isCompleted = ($i < $currentRank);
+                    $isActive = ($i === $currentRank);
+                    $dotColor = $isCompleted ? '#16A34A' : ($isActive ? '#F5B800' : '#E8DFCB');
+                    $dotText = $isCompleted ? '✓' : $i;
+                ?>
+                <div class="relative">
+                    <!-- Timeline Node -->
+                    <div style="position: absolute; left: -33px; top: 0; width: 22px; height: 22px; border-radius: 50%; background: <?= $dotColor ?>; color: <?= $isCompleted || $isActive ? '#000' : '#888' ?>; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; border: 2px solid #FFF; box-shadow: 0 0 0 2px <?= $dotColor ?>;">
+                        <?= $dotText ?>
+                    </div>
 
-                    for (let i = 1; i <= 4; i++) {
-                        const node = document.getElementById(`step${i}`);
-                        if (!node) continue;
-                        node.className = 'step-node';
-                        if (i < step || (i === 4 && step === 4)) {
-                            node.classList.add('completed');
-                        } else if (i === step) {
-                            node.classList.add('active');
-                        }
-                    }
+                    <div style="<?= !$isCompleted && !$isActive ? 'opacity: 0.45;' : '' ?>">
+                        <div class="font-bold text-sm text-foreground flex items-center gap-2">
+                            <span><?= htmlspecialchars($meta['title']) ?></span>
+                            <?php if ($isActive): ?>
+                                <span class="badge badge-gold" style="font-size: 9px;">In Progress</span>
+                            <?php endif; ?>
+                        </div>
+                        <div class="text-xs text-muted-foreground mt-0.5">
+                            <?= htmlspecialchars($meta['desc']) ?>
+                        </div>
+                    </div>
+                </div>
+            <?php $i++; endforeach; ?>
+        </div>
+    </div>
 
-                    if (data.delivery && document.getElementById('deliveryStatusBadge')) {
-                        document.getElementById('deliveryStatusBadge').innerText = data.delivery.status.replace(/_/g, ' ');
-                    }
-                }
-            } catch (err) {
-                console.warn('Tracking poll error:', err);
-            }
+    <!-- ── RAPIDO DELIVERY INFO (If Applicable) ── -->
+    <?php if (!empty($delivery)): ?>
+        <div class="card p-5 mb-6 bg-muted" style="background: #F8F4EB;">
+            <div class="flex items-center justify-between mb-2">
+                <span class="font-bold text-sm text-foreground">🛵 Delivery Partner (<?= htmlspecialchars(ucfirst($delivery['provider_name'])) ?>)</span>
+                <span class="badge badge-gold" style="text-transform: capitalize;"><?= htmlspecialchars(str_replace('_', ' ', $delivery['status'])) ?></span>
+            </div>
+            <div class="text-xs text-muted-foreground">Booking Ref: <strong><?= htmlspecialchars($delivery['booking_reference'] ?: 'Pending dispatch') ?></strong></div>
+            <?php if (!empty($delivery['tracking_url'])): ?>
+                <a href="<?= htmlspecialchars($delivery['tracking_url']) ?>" target="_blank" class="btn btn-outline btn-sm mt-3 w-full text-center">
+                    🔗 Open External Live Tracking &rarr;
+                </a>
+            <?php endif; ?>
+        </div>
+    <?php endif; ?>
+
+    <!-- ── ACTIONS (Mockup Screen 8) ── -->
+    <div class="grid grid-cols-2 gap-3" style="display: grid; grid-template-columns: 1fr 1fr;">
+        <!-- Add More Items -->
+        <a href="/track/<?= htmlspecialchars($order['tracking_token']) ?>/add-more" class="btn btn-primary text-center">
+            ➕ Add More Items
+        </a>
+
+        <!-- Contact Support via WhatsApp -->
+        <?php
+            $msg = urlencode("Hi Valima Biriyani, I am checking on my Order #{$order['order_number']}.");
+            $waUrl = "https://wa.me/919876543210?text={$msg}";
+        ?>
+        <a href="<?= $waUrl ?>" target="_blank" class="btn btn-outline text-center">
+            💬 Contact Support
+        </a>
+    </div>
+</div>
+
+<!-- ── POLLING AUTO-REFRESH SCRIPT ── -->
+<script>
+const trackingToken = <?= json_encode($order['tracking_token']) ?>;
+let lastStatus = <?= json_encode($order['status']) ?>;
+
+async function pollOrderStatus() {
+    try {
+        const res = await fetch(`/api/track/${trackingToken}`);
+        if (!res.ok) return;
+        const data = await res.json();
+        if (data.success && data.status !== lastStatus) {
+            // Status changed in kitchen or delivery -> smooth reload to show new step!
+            window.location.reload();
         }
+    } catch (e) {}
+}
 
-        // Poll every 4 seconds
-        setInterval(pollOrderStatus, 4000);
-    </script>
-</body>
-</html>
+setInterval(pollOrderStatus, 4000);
+</script>
