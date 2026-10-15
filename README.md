@@ -85,16 +85,24 @@ The user interface matches the approved premium restaurant mockup:
 
 ## 🧪 Automated Testing
 
-Valima Biriyani includes 10 standalone test suites with **217 automated assertions** covering auth, RBAC, server pricing, concurrency, KDS, tracking, loyalty, reports, and settings:
+Valima Biriyani includes 11 standalone test suites with **266 automated assertions** covering auth, RBAC, server pricing, concurrency, KDS, tracking, loyalty, reports, settings, and full end-to-end workflows:
 
 ```powershell
-# Run all test suites
+# Run all 11 test suites
 Get-ChildItem -Path tests -Filter "*Test.php" | ForEach-Object { php $_.FullName }
 ```
+
+---
+
+## 🌐 Production Deployment (Hostinger)
+
+For complete step-by-step instructions on deploying to Hostinger shared hosting using the 1-click web installer wizard (`/install`), see:
+👉 **[HOSTINGER_HOSTING.md](file:///c:/Users/niran/Downloads/hotel/HOSTINGER_HOSTING.md)**
 
 ---
 
 ## 📋 Project Roadmap & Phases
 
 See [CHECKLIST.md](file:///c:/Users/niran/Downloads/hotel/CHECKLIST.md) for full phase status and deliverables.
+
 
