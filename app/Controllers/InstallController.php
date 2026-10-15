@@ -155,6 +155,8 @@ class InstallController extends BaseController
             require_once dirname(__DIR__, 2) . '/database/Migration.php';
             require_once dirname(__DIR__, 2) . '/database/MigrationRunner.php';
 
+            // Execute migrations silently (buffer output)
+            ob_start();
             $runner = new MigrationRunner($pdo);
             $migrationsDir = dirname(__DIR__, 2) . '/database/migrations';
             $runner->run($migrationsDir);
@@ -171,6 +173,7 @@ class InstallController extends BaseController
                 MenuSeeder::run($pdo);
                 SettingsSeeder::run($pdo);
             }
+            ob_end_clean();
 
             // Create or update Super Admin user
             $hashedPass = password_hash($adminPass, PASSWORD_BCRYPT);
