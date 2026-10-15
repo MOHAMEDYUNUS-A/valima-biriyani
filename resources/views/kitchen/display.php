@@ -524,10 +524,11 @@
             color: var(--text-muted);
         }
     </style>
+    <script>window.APP_BASE_URL = '<?= $basePath ?? '' ?>';</script>
 </head>
 <body>
 
-    <audio id="kitchenAudio" src="/assets/pop.mp3" preload="auto"></audio>
+    <audio id="kitchenAudio" src="<?= $basePath ?? '' ?>/assets/pop.mp3" preload="auto"></audio>
 
     <!-- HEADER -->
     <header class="kds-header">
@@ -547,7 +548,7 @@
                 <span class="live-dot"></span>
                 <span id="connLabel">Live Kitchen Stream</span>
             </div>
-            <a href="/admin" style="color: var(--text-muted); font-size: 0.85rem; text-decoration: none; font-weight: 600; margin-left: 8px;">
+            <a href="<?= $basePath ?? '' ?>/admin" style="color: var(--text-muted); font-size: 0.85rem; text-decoration: none; font-weight: 600; margin-left: 8px;">
                 Dashboard &rarr;
             </a>
         </div>
@@ -666,7 +667,7 @@
                         </div>
 
                         <div class="card-actions">
-                            <a href="/kitchen/kot/<?= (int)$order['id'] ?>" target="_blank" class="btn-kot" title="Print KOT Ticket">
+                            <a href="<?= $basePath ?? '' ?>/kitchen/kot/<?= (int)$order['id'] ?>" target="_blank" class="btn-kot" title="Print KOT Ticket">
                                 🖨️ KOT
                             </a>
 
@@ -713,7 +714,8 @@
 
         async function advanceOrderStatus(orderId, newStatus) {
             try {
-                const res = await fetch(`/api/kitchen/orders/${orderId}/status`, {
+                const base = window.APP_BASE_URL || '';
+                const res = await fetch(`${base}/api/kitchen/orders/${orderId}/status`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ status: newStatus })
@@ -732,7 +734,8 @@
 
         async function pollKitchenStream() {
             try {
-                const res = await fetch('/api/kitchen/stream');
+                const base = window.APP_BASE_URL || '';
+                const res = await fetch(`${base}/api/kitchen/stream`);
                 if (!res.ok) throw new Error('HTTP ' + res.status);
                 const data = await res.json();
 
@@ -854,7 +857,7 @@
                         </div>
 
                         <div class="card-actions">
-                            <a href="/kitchen/kot/${order.id}" target="_blank" class="btn-kot" title="Print KOT Ticket">
+                            <a href="${window.APP_BASE_URL || ''}/kitchen/kot/${order.id}" target="_blank" class="btn-kot" title="Print KOT Ticket">
                                 🖨️ KOT
                             </a>
                             ${actionBtn}

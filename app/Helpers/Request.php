@@ -26,11 +26,44 @@ class Request
      */
     public static function basePath(): string
     {
+        // 1. Explicit APP_URL subfolder (if set in .env)
+        $appUrl = \App\Helpers\Env::get('APP_URL', '');
+        if ($appUrl !== '') {
+            $urlPath = parse_url($appUrl, PHP_URL_PATH);
+            if ($urlPath && $urlPath !== '/' && $urlPath !== '') {
+                return rtrim($urlPath, '/');
+            }
+        }
+
+        // 2. Check SCRIPT_NAME (e.g. /hotel/hotel/public/index.php)
         $script = str_replace('\\', '/', $_SERVER['SCRIPT_NAME'] ?? '');
         $dir = str_replace('\\', '/', dirname($script));
         $base = preg_replace('#/public/?$#i', '', $dir);
+        if ($base !== '' && $base !== '/' && $base !== '.') {
+            return rtrim($base, '/');
+        }
 
-        return ($base === '/' || $base === '.' || $base === null) ? '' : rtrim($base, '/');
+        // 3. Fallback: SCRIPT_FILENAME relative to DOCUMENT_ROOT
+        $docRoot = str_replace('\\', '/', $_SERVER['DOCUMENT_ROOT'] ?? '');
+        $scriptFile = str_replace('\\', '/', $_SERVER['SCRIPT_FILENAME'] ?? '');
+        if ($docRoot !== '' && str_starts_with($scriptFile, $docRoot)) {
+            $rel = substr($scriptFile, strlen($docRoot));
+            $relDir = str_replace('\\', '/', dirname($rel));
+            $relBase = preg_replace('#/public/?$#i', '', $relDir);
+            if ($relBase !== '' && $relBase !== '/' && $relBase !== '.') {
+                return rtrim($relBase, '/');
+            }
+        }
+
+        // 4. Fallback: REQUEST_URI prefix detection (e.g. /hotel/hotel/)
+        $reqUri = parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH) ?? '';
+        if (preg_match('#^(/[^/]+(?:/[^/]+)*?)/(?:install|login|admin|kitchen|pos|menu|checkout|cart|api|dine-in|about|contact|track|styleguide|orders|logout)?(?:/.*)?$#i', $reqUri, $m)) {
+            if ($m[1] !== '/public') {
+                return rtrim($m[1], '/');
+            }
+        }
+
+        return '';
     }
 
     public function uri(): string

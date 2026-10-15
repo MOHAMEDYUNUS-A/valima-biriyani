@@ -330,7 +330,8 @@ function checkoutApp() {
             }));
 
             try {
-                const res = await fetch('/api/orders/calculate', {
+                const base = window.APP_BASE_URL || '';
+                const res = await fetch(`${base}/api/orders/calculate`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -407,7 +408,8 @@ function checkoutApp() {
             };
 
             try {
-                const res = await fetch('/api/orders', {
+                const base = window.APP_BASE_URL || '';
+                const res = await fetch(`${base}/api/orders`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
@@ -422,7 +424,7 @@ function checkoutApp() {
                     }
 
                     // Redirect to tracking page
-                    window.location.href = `/track/${data.data.tracking_token}`;
+                    window.location.href = `${base}/track/${data.data.tracking_token}`;
                 } else {
                     alert(data.message || data.error || 'Failed to place order.');
                     this.isSubmitting = false;

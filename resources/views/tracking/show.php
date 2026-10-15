@@ -179,7 +179,8 @@ let lastStatus = <?= json_encode($order['status']) ?>;
 
 async function pollOrderStatus() {
     try {
-        const res = await fetch(`/api/track/${trackingToken}`);
+        const base = window.APP_BASE_URL || '';
+        const res = await fetch(`${base}/api/track/${trackingToken}`);
         if (!res.ok) return;
         const data = await res.json();
         if (data.success && data.status !== lastStatus) {

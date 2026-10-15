@@ -17,7 +17,7 @@
             </p>
 
             <div class="flex flex-wrap items-center gap-4">
-                <a href="/menu" class="btn btn-primary btn-lg shadow-card">
+                <a href="<?= $basePath ?? '' ?>/menu" class="btn btn-primary btn-lg shadow-card">
                     <?= \App\Helpers\Icon::render('shopping-bag', 'w-5 h-5') ?>
                     <span>Order Online</span>
                 </a>
@@ -34,7 +34,7 @@
                 <!-- Soft Glow behind the handi -->
                 <div style="position: absolute; inset: 10%; background: radial-gradient(circle, rgba(245, 184, 0, 0.35) 0%, transparent 70%); filter: blur(30px); border-radius: 50%; z-index: 1;"></div>
                 
-                <img src="/assets/images/valima-mockup.jpg" alt="Authentic Valima Biriyani in Traditional Copper Handi"
+                <img src="<?= $basePath ?? '' ?>/assets/images/valima-mockup.jpg" alt="Authentic Valima Biriyani in Traditional Copper Handi"
                      style="position: relative; z-index: 2; width: 100%; height: auto; max-height: 380px; object-fit: cover; object-position: 23% 10%; border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.6); border: 2px solid rgba(245, 184, 0, 0.3);">
 
                 <!-- Floating Rating Pill -->
@@ -97,7 +97,7 @@
                 <p style="color: var(--muted-foreground); font-size: 0.95rem; margin-top: 4px;">Freshly prepared batches hot from the dum pot</p>
             </div>
 
-            <a href="/menu" class="btn btn-outline btn-sm hidden sm:inline-flex">
+            <a href="<?= $basePath ?? '' ?>/menu" class="btn btn-outline btn-sm hidden sm:inline-flex">
                 View All Items &rarr;
             </a>
         </div>
@@ -107,7 +107,7 @@
             <div class="card card-hover flex flex-col justify-between">
                 <div>
                     <div style="height: 180px; position: relative; overflow: hidden; background: #222;">
-                        <img src="/assets/images/valima-mockup.jpg" alt="Chicken Biryani"
+                        <img src="<?= $basePath ?? '' ?>/assets/images/valima-mockup.jpg" alt="Chicken Biryani"
                              style="width: 100%; height: 100%; object-fit: cover; object-position: 70% 8%;">
                         <div style="position: absolute; top: 12px; left: 12px; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); padding: 3px 8px; border-radius: 999px; font-size: 0.75rem; font-weight: 700; color: #FFF; display: flex; align-items: center; gap: 4px;">
                             <span style="color: #F59E0B;">★</span> 4.8 (2.3k)
@@ -135,7 +135,7 @@
                         <div style="font-size: 0.7rem; color: var(--muted-foreground); text-transform: uppercase; font-weight: 700;">Starts At</div>
                         <div style="font-size: 1.4rem; font-weight: 800; color: var(--foreground); line-height: 1;">₹190</div>
                     </div>
-                    <a href="/menu" class="btn btn-primary btn-icon" title="Choose Variant & Add">
+                    <a href="<?= $basePath ?? '' ?>/menu" class="btn btn-primary btn-icon" title="Choose Variant & Add">
                         <?= \App\Helpers\Icon::render('plus', 'w-5 h-5') ?>
                     </a>
                 </div>
@@ -145,7 +145,7 @@
             <div class="card card-hover flex flex-col justify-between">
                 <div>
                     <div style="height: 180px; position: relative; overflow: hidden; background: #222;">
-                        <img src="/assets/images/valima-mockup.jpg" alt="Mutton Biryani"
+                        <img src="<?= $basePath ?? '' ?>/assets/images/valima-mockup.jpg" alt="Mutton Biryani"
                              style="width: 100%; height: 100%; object-fit: cover; object-position: 25% 10%;">
                         <div style="position: absolute; top: 12px; left: 12px; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); padding: 3px 8px; border-radius: 999px; font-size: 0.75rem; font-weight: 700; color: #FFF; display: flex; align-items: center; gap: 4px;">
                             <span style="color: #F59E0B;">★</span> 4.9 (1.8k)
@@ -173,7 +173,7 @@
                         <div style="font-size: 0.7rem; color: var(--muted-foreground); text-transform: uppercase; font-weight: 700;">Starts At</div>
                         <div style="font-size: 1.4rem; font-weight: 800; color: var(--foreground); line-height: 1;">₹280</div>
                     </div>
-                    <a href="/menu" class="btn btn-primary btn-icon" title="Choose Variant & Add">
+                    <a href="<?= $basePath ?? '' ?>/menu" class="btn btn-primary btn-icon" title="Choose Variant & Add">
                         <?= \App\Helpers\Icon::render('plus', 'w-5 h-5') ?>
                     </a>
                 </div>
@@ -183,7 +183,7 @@
             <div class="card card-hover flex flex-col justify-between">
                 <div>
                     <div style="height: 180px; position: relative; overflow: hidden; background: #222;">
-                        <img src="/assets/images/valima-mockup.jpg" alt="Veg Fried Rice"
+                        <img src="<?= $basePath ?? '' ?>/assets/images/valima-mockup.jpg" alt="Veg Fried Rice"
                              style="width: 100%; height: 100%; object-fit: cover; object-position: 70% 8%;">
                         <div style="position: absolute; top: 12px; left: 12px; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); padding: 3px 8px; border-radius: 999px; font-size: 0.75rem; font-weight: 700; color: #FFF; display: flex; align-items: center; gap: 4px;">
                             <span style="color: #F59E0B;">★</span> 4.7 (950)
@@ -211,7 +211,7 @@
                         <div style="font-size: 0.7rem; color: var(--muted-foreground); text-transform: uppercase; font-weight: 700;">Starts At</div>
                         <div style="font-size: 1.4rem; font-weight: 800; color: var(--foreground); line-height: 1;">₹160</div>
                     </div>
-                    <a href="/menu" class="btn btn-primary btn-icon" title="Choose Variant & Add">
+                    <a href="<?= $basePath ?? '' ?>/menu" class="btn btn-primary btn-icon" title="Choose Variant & Add">
                         <?= \App\Helpers\Icon::render('plus', 'w-5 h-5') ?>
                     </a>
                 </div>

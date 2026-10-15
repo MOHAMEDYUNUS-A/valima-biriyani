@@ -6,8 +6,9 @@
     <title><?= \App\Helpers\Security::e($title ?? 'Admin Console') ?> | Valima Biriyani</title>
     
     <!-- Design System CSS -->
-    <link rel="stylesheet" href="/assets/css/app.css">
-    <script src="/assets/js/alpine.min.js" defer></script>
+    <link rel="stylesheet" href="<?= $basePath ?? '' ?>/assets/css/app.css">
+    <script src="<?= $basePath ?? '' ?>/assets/js/alpine.min.js" defer></script>
+    <script>window.APP_BASE_URL = '<?= $basePath ?? '' ?>';</script>
 
     <style>
         :root {
@@ -105,7 +106,7 @@
     <!-- ── DARK SIDEBAR (Matches Mockup Screen 10) ── -->
     <aside class="admin-sidebar">
         <div class="admin-logo-box">
-            <img src="/assets/images/valima-logo.jpg" alt="Valima Biriyani" style="height: 38px; border-radius: 6px;">
+            <img src="<?= $basePath ?? '' ?>/assets/images/valima-logo.jpg" alt="Valima Biriyani" style="height: 38px; border-radius: 6px;">
             <div>
                 <div class="font-serif font-bold text-white text-base leading-tight">VALIMA</div>
                 <div style="font-size: 0.65rem; color: var(--primary); letter-spacing: 1.5px; text-transform: uppercase; font-weight: 700;">Management</div>
@@ -113,54 +114,54 @@
         </div>
 
         <nav class="admin-nav">
-            <a href="/admin" class="admin-nav-item <?= empty($currentPage) || $currentPage === 'dashboard' ? 'active' : '' ?>">
+            <a href="<?= $basePath ?? '' ?>/admin" class="admin-nav-item <?= empty($currentPage) || $currentPage === 'dashboard' ? 'active' : '' ?>">
                 <?= \App\Helpers\Icon::render('layout-dashboard', 'w-5 h-5') ?>
                 <span>Dashboard</span>
             </a>
 
-            <a href="/admin/orders" class="admin-nav-item <?= ($currentPage ?? '') === 'orders' ? 'active' : '' ?>">
+            <a href="<?= $basePath ?? '' ?>/admin/orders" class="admin-nav-item <?= ($currentPage ?? '') === 'orders' ? 'active' : '' ?>">
                 <?= \App\Helpers\Icon::render('shopping-bag', 'w-5 h-5') ?>
                 <span>Orders</span>
             </a>
 
-            <a href="/admin/menu" class="admin-nav-item <?= ($currentPage ?? '') === 'menu' ? 'active' : '' ?>">
+            <a href="<?= $basePath ?? '' ?>/admin/menu" class="admin-nav-item <?= ($currentPage ?? '') === 'menu' ? 'active' : '' ?>">
                 <?= \App\Helpers\Icon::render('menu', 'w-5 h-5') ?>
                 <span>Menu</span>
             </a>
 
-            <a href="/admin/crm" class="admin-nav-item <?= ($currentPage ?? '') === 'crm' ? 'active' : '' ?>">
+            <a href="<?= $basePath ?? '' ?>/admin/crm" class="admin-nav-item <?= ($currentPage ?? '') === 'crm' ? 'active' : '' ?>">
                 <?= \App\Helpers\Icon::render('user', 'w-5 h-5') ?>
                 <span>Customers</span>
             </a>
 
-            <a href="/admin/reports" class="admin-nav-item <?= ($currentPage ?? '') === 'reports' ? 'active' : '' ?>">
+            <a href="<?= $basePath ?? '' ?>/admin/reports" class="admin-nav-item <?= ($currentPage ?? '') === 'reports' ? 'active' : '' ?>">
                 <?= \App\Helpers\Icon::render('bar-chart', 'w-5 h-5') ?>
                 <span>Reports</span>
             </a>
 
-            <a href="/admin/settings" class="admin-nav-item <?= ($currentPage ?? '') === 'settings' ? 'active' : '' ?>">
+            <a href="<?= $basePath ?? '' ?>/admin/settings" class="admin-nav-item <?= ($currentPage ?? '') === 'settings' ? 'active' : '' ?>">
                 <?= \App\Helpers\Icon::render('settings', 'w-5 h-5') ?>
                 <span>Settings</span>
             </a>
 
-            <a href="/pos" class="admin-nav-item">
+            <a href="<?= $basePath ?? '' ?>/pos" class="admin-nav-item">
                 <?= \App\Helpers\Icon::render('credit-card', 'w-5 h-5') ?>
                 <span>POS Billing</span>
             </a>
 
-            <a href="/kitchen" class="admin-nav-item">
+            <a href="<?= $basePath ?? '' ?>/kitchen" class="admin-nav-item">
                 <?= \App\Helpers\Icon::render('flame', 'w-5 h-5') ?>
                 <span>Kitchen KDS</span>
             </a>
 
-            <a href="/styleguide" class="admin-nav-item">
+            <a href="<?= $basePath ?? '' ?>/styleguide" class="admin-nav-item">
                 <?= \App\Helpers\Icon::render('sparkles', 'w-5 h-5') ?>
                 <span>Styleguide</span>
             </a>
         </nav>
 
         <div style="padding: 1rem 0.85rem; border-top: 1px solid var(--sidebar-border);">
-            <a href="/logout" class="admin-nav-item text-red-400 hover:text-red-300">
+            <a href="<?= $basePath ?? '' ?>/logout" class="admin-nav-item text-red-400 hover:text-red-300">
                 <?= \App\Helpers\Icon::render('logout', 'w-5 h-5') ?>
                 <span>Sign Out</span>
             </a>
@@ -179,7 +180,7 @@
             </div>
 
             <div class="flex items-center gap-4">
-                <a href="/pos" class="btn btn-primary btn-sm shadow-soft">
+                <a href="<?= $basePath ?? '' ?>/pos" class="btn btn-primary btn-sm shadow-soft">
                     <?= \App\Helpers\Icon::render('plus', 'w-4 h-4') ?>
                     <span>New Order (POS)</span>
                 </a>

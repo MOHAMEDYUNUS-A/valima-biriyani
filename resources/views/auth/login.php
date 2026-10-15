@@ -192,7 +192,7 @@
                 </div>
             <?php endif; ?>
 
-            <form action="/login" method="POST">
+            <form action="<?= $basePath ?? '' ?>/login" method="POST">
                 <?= $csrf_field ?>
 
                 <div class="form-group">
@@ -220,7 +220,7 @@
     </div>
 
     <div class="footer-note">
-        <a href="/">← Return to Customer Storefront</a>
+        <a href="<?= $basePath ?? '' ?>/">← Return to Customer Storefront</a>
     </div>
 </div>
 

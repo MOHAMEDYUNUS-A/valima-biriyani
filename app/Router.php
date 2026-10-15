@@ -92,8 +92,15 @@ class Router
 
         // Smart Subdirectory Fallback: If no route matched directly, check if URI has a subfolder prefix (e.g. /hotel/hotel/install)
         if (!$matchedRoute) {
+            $base = Request::basePath();
             foreach ($this->routes as $route) {
-                if ($route['path'] !== '/' && str_ends_with($uri, $route['path'])) {
+                if ($route['path'] === '/' && ($uri === $base || rtrim($uri, '/') === rtrim($base, '/'))) {
+                    if ($route['method'] === $method) {
+                        $matchedRoute = $route;
+                        break;
+                    }
+                    $methodAllowed = true;
+                } elseif ($route['path'] !== '/' && str_ends_with($uri, $route['path'])) {
                     $prefix = substr($uri, 0, strlen($uri) - strlen($route['path']));
                     $strippedUri = substr($uri, strlen($prefix));
                     if (preg_match($route['regex'], $strippedUri, $matches)) {

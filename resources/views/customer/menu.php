@@ -35,7 +35,7 @@
             </div>
 
             <div class="flex justify-end mt-4 md:mt-0">
-                <img src="/assets/images/valima-mockup.jpg" alt="Special Menu"
+                <img src="<?= $basePath ?? '' ?>/assets/images/valima-mockup.jpg" alt="Special Menu"
                      style="height: 140px; border-radius: 12px; object-fit: cover; object-position: 70% 8%; border: 2px solid rgba(245, 184, 0, 0.3);">
             </div>
         </div>
@@ -99,7 +99,7 @@
                 <div>
                     <!-- Image with Rating & Prep Time -->
                     <div style="height: 170px; position: relative; overflow: hidden; background: #222;">
-                        <img src="/assets/images/valima-mockup.jpg" alt="<?= htmlspecialchars($item['name']) ?>"
+                        <img src="<?= $basePath ?? '' ?>/assets/images/valima-mockup.jpg" alt="<?= htmlspecialchars($item['name']) ?>"
                              style="width: 100%; height: 100%; object-fit: cover; object-position: <?= (int)$item['id'] % 2 === 0 ? '25% 10%' : '70% 8%' ?>;">
                         
                         <div style="position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); padding: 3px 8px; border-radius: 999px; font-size: 0.75rem; font-weight: 700; color: #FFF; display: flex; align-items: center; gap: 4px;">
@@ -321,7 +321,7 @@
             </div>
 
             <!-- Proceed to Checkout Button -->
-            <a href="/checkout" class="btn btn-primary w-full text-center" :class="cartTotalItems() === 0 ? 'opacity-50 pointer-events-none' : ''">
+            <a href="<?= $basePath ?? '' ?>/checkout" class="btn btn-primary w-full text-center" :class="cartTotalItems() === 0 ? 'opacity-50 pointer-events-none' : ''">
                 Proceed to Checkout &rarr;
             </a>
         </div>

@@ -339,7 +339,8 @@ function settlePosOrder() {
         cart: items
     };
 
-    fetch('/api/pos/orders', {
+    const base = window.APP_BASE_URL || '';
+    fetch(base + '/api/pos/orders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -353,7 +354,7 @@ function settlePosOrder() {
 
         let order = res.data;
         // Open printable receipt in popup window
-        window.open('/pos/receipt/' + order.order_id, '_blank', 'width=420,height=600');
+        window.open(base + '/pos/receipt/' + order.order_id, '_blank', 'width=420,height=600');
         clearBill();
     })
     .catch(err => {

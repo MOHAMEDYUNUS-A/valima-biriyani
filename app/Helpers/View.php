@@ -44,7 +44,19 @@ class View
             }
             ob_start();
             include $layoutFile;
-            return ob_get_clean();
+            $content = ob_get_clean();
+        }
+
+        $base = Request::basePath();
+        if ($base !== '') {
+            $quotedBase = preg_quote(ltrim($base, '/'), '#');
+            $pattern = '#\b(href|src|action)=([\'"])/(?!\/|' . $quotedBase . ')([^"\']*)[\'"]#i';
+            $content = preg_replace($pattern, '$1=$2' . $base . '/$3$2', $content);
+
+            // Inject window.APP_BASE_URL into <head> if not already present
+            if (!str_contains($content, 'window.APP_BASE_URL') && str_contains($content, '</head>')) {
+                $content = str_replace('</head>', "    <script>window.APP_BASE_URL = '{$base}';</script>\n</head>", $content);
+            }
         }
 
         return $content;
