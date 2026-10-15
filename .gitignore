@@ -7,6 +7,8 @@
 composer.lock
 
 # Storage & Logs
+/storage/database.sqlite
+/storage/*.sqlite
 /storage/logs/*.log
 /storage/backups/*.sql
 /storage/backups/*.gz

@@ -22,19 +22,28 @@ Last Updated: Phase 1 Inspection & Architecture Plan Complete
 - [x] Generate initial `CHECKLIST.md` and `README.md`.
 
 ### Phase 2: Architecture Foundation & Core Framework
-- [ ] Establish directory structure (`app/`, `config/`, `database/`, `public/`, `resources/views/`, `routes/`, `storage/`, `tests/`, `legacy/`).
-- [ ] Safe environment configuration (`.env`, `.env.example`, environment loader with secure fallbacks).
-- [ ] Secure HTTP Routing engine (RESTful methods, URL parameters, CSRF protection, error handler).
-- [ ] PDO Database wrapper with transaction management, prepared statements, and query logging.
-- [ ] Base MVC components: BaseController, BaseModel, ViewRenderer, Request, Response, Session, Validator.
-- [ ] Error & Exception Handling (safe production error pages, debug logs in `storage/logs/`).
-- [ ] Modern, responsive master layout templates preserving existing warm orange/gold restaurant aesthetics.
+- [x] Establish directory structure (`app/`, `config/`, `database/`, `public/`, `resources/views/`, `routes/`, `storage/`, `tests/`, `legacy/`).
+- [x] Safe environment configuration (`.env`, `.env.example`, environment loader with secure fallbacks).
+- [x] Secure HTTP Routing engine (RESTful methods, URL parameters, CSRF protection, error handler).
+- [x] PDO Database wrapper with transaction management, prepared statements, and query logging.
+- [x] Base MVC components: BaseController, View, Request, Response, Session, Security, Logger.
+- [x] Error & Exception Handling (safe production error pages, debug logs in `storage/logs/`).
+- [x] Modern, responsive master layout templates preserving existing warm orange/gold restaurant aesthetics (`main.php`, `admin.php`).
+- [x] 18 Automated Foundation Unit/Integration Tests executed and passing cleanly (0 failures).
+- [x] Test web server verification on `/` (200 OK, 10.4KB) and `/health` (JSON operational).
 
 ### Phase 3: Database Migrations & Legacy Data Migration
-- [ ] Migration runner engine (schema versioning, up/down migrations).
-- [ ] Schema migrations: `users`, `roles`, `permissions`, `user_roles`, `customers`, `customer_addresses`, `customer_consents`, `restaurant_tables`, `menu_categories`, `menu_items`, `menu_item_variants`, `menu_addons`, `menu_item_addons`, `orders`, `order_items`, `order_item_addons`, `order_status_events`, `payments`, `refunds`, `loyalty_settings`, `loyalty_transactions`, `delivery_bookings`, `kitchen_tickets`, `print_jobs`, `notification_logs`, `webhook_events`, `idempotency_keys`, `restaurant_settings`, `audit_logs`, `rate_limits`.
-- [ ] Seeders: Roles, Permissions, Admin User, Sample Menu (Biriyani, Fried Rice, Noodles, existing prices), Table Configuration (1–8).
-- [ ] Legacy Data Migration Script (`orders`, `order_items`, `menu`, `tables`) with backup safeguard.
+- [x] Migration runner engine (`database/MigrationRunner.php`, `database/Migration.php`, CLI `bin/migrate.php`).
+- [x] Schema migrations:
+  - `001_create_core_auth_tables.php`: `users`, `roles`, `permissions`, `user_roles`, `audit_logs`, `rate_limits`.
+  - `002_create_dining_and_menu_tables.php`: `restaurant_tables`, `menu_categories`, `menu_items`, `menu_item_variants`, `menu_addons`, `menu_item_addons`.
+  - `003_create_customers_and_loyalty_tables.php`: `customers`, `customer_addresses`, `customer_consents`, `loyalty_settings`, `loyalty_transactions`.
+  - `004_create_orders_and_billing_tables.php`: `orders`, `order_items`, `order_item_addons`, `order_status_events`, `payments`, `refunds`, `idempotency_keys`.
+  - `005_create_kitchen_delivery_and_system_tables.php`: `kitchen_tickets`, `print_jobs`, `delivery_bookings`, `notification_logs`, `webhook_events`, `restaurant_settings`.
+- [x] Seeders: Roles (owner, manager, cashier, kitchen, delivery), Admin User (`admin@valimabiriyani.com` / `Admin@Valima2026`), Tables 1–8, Sample Menu Items with exact existing prices (Biriyani 190/280, Fried Rice 160/200, Noodles 160/200), Add-ons, and Settings.
+- [x] Legacy Data Migration Engine (`database/LegacyDataMigrator.php`) with safe non-destructive backups (`_backup_legacy_*`), status translation, and total recalculation.
+- [x] 47 Automated Database Migration Tests executed and passing cleanly (0 failures).
+- [x] Local database initialized and verified.
 
 ### Phase 4: Authentication, Authorization & Security Hardening
 - [ ] Staff authentication (`password_hash` / `password_verify`, Argon2id/Bcrypt).
