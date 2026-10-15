@@ -77,9 +77,9 @@ class Session
 
     public static function destroy(): void
     {
+        $_SESSION = [];
         if (session_status() === PHP_SESSION_ACTIVE) {
-            $_SESSION = [];
-            if (ini_get("session.use_cookies")) {
+            if (!headers_sent() && ini_get("session.use_cookies")) {
                 $params = session_get_cookie_params();
                 setcookie(
                     session_name(),
@@ -91,7 +91,7 @@ class Session
                     $params["httponly"]
                 );
             }
-            session_destroy();
+            @session_destroy();
             self::$started = false;
         }
     }

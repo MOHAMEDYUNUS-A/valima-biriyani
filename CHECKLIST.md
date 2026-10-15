@@ -46,13 +46,16 @@ Last Updated: Phase 1 Inspection & Architecture Plan Complete
 - [x] Local database initialized and verified.
 
 ### Phase 4: Authentication, Authorization & Security Hardening
-- [ ] Staff authentication (`password_hash` / `password_verify`, Argon2id/Bcrypt).
-- [ ] Session security (session regeneration on login, HttpOnly, SameSite=Strict, session timeout).
-- [ ] Role-Based Access Control (RBAC): Owner, Manager, Cashier/POS, Kitchen, Delivery.
-- [ ] Role-protect routes (`/admin`, `/pos`, `/kitchen`, `/delivery`).
-- [ ] Rate limiting on login attempts (IP and user tracking).
-- [ ] CSRF middleware on all state-changing endpoints (POST/PUT/DELETE).
-- [ ] Comprehensive Audit Logger for critical events (price edits, cancellations, refunds, staff changes).
+- [x] Staff authentication (`password_hash` / `password_verify`, Bcrypt).
+- [x] Session security (`Session::regenerate()` on login, HttpOnly, SameSite=Lax, session timeout).
+- [x] Role-Based Access Control (RBAC): Owner, Manager, Cashier/POS, Kitchen, Delivery.
+- [x] Role-protect routes (`/admin`, `/pos`, `/kitchen`, `/delivery`) via `AuthMiddleware` and `RoleMiddleware`.
+- [x] Persistent Rate limiting on login attempts via `rate_limits` table (IP + email tracking).
+- [x] CSRF middleware on all state-changing endpoints (POST/PUT/DELETE) with token verification.
+- [x] Comprehensive Audit Logger (`Logger::audit()`) writing to daily audit logs and database table.
+- [x] Responsive, branded staff login view (`resources/views/auth/login.php`).
+- [x] 13 Automated Auth & Security Tests executed and passing cleanly (0 failures).
+- [x] HTTP Verification: `/login` renders 200 with CSRF; `/admin` returns 302 redirecting unauthenticated requests.
 
 ### Phase 5: Public Website & Menu Management
 - [ ] Public restaurant storefront: Home, About, Menu, Contact, Hours & Location, FAQ.
